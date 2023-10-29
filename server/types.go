@@ -19,7 +19,8 @@ type ExpenseModifyForm struct {
 	Amount         float64
 	Tags           string
 	UserId         int
-	SubmissionData string
+	SubmissionDate string
+	EpenseDate     string
 }
 
 type Auth struct {

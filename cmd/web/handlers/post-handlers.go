@@ -65,8 +65,10 @@ func PostExpenseModify(c *fiber.Ctx) error {
 	XModForm.Label = c.FormValue("label")
 	//XModForm.Amount = c.FormValue("amount")
 	XModForm.Tags = c.FormValue("tags")
-	XModForm.SubmissionData = time.Now().String()
+	XModForm.SubmissionDate = time.Now().String()
+	h.App.Db.AddExpense(XModForm.Label, XModForm.Amount, XModForm.Tags, time.Now().String(), time.Now().String(), "1")
 
+	data["Form"] = XModForm
 	data["Auth"] = server.GetAuthStatus(c, h.App)
 	return c.Render("partials/form/app/expense/modify-response", data)
 }

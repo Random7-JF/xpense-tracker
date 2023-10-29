@@ -12,7 +12,7 @@ import (
 
 type Service interface {
 	GetExpense()
-	AddExpense()
+	AddExpense(label string, amount float64, tags string, expenseDate string, submissionDate string, userId string)
 	RemoveExpense()
 
 	CheckIfUserExists(username string) bool
