@@ -4,11 +4,13 @@ import (
 	"github.com/Random7-JF/xpense-tracker/cmd/web/handlers"
 	"github.com/Random7-JF/xpense-tracker/cmd/web/middleware"
 	"github.com/Random7-JF/xpense-tracker/config"
+	"github.com/Random7-JF/xpense-tracker/server"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/html/v2"
 )
 
 func createWeb(app *config.App) {
+	server.RegisterGobs()
 	addEngine()
 	addRoutes()
 	handlers.NewHandlers(app)

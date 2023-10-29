@@ -43,10 +43,16 @@ func PostLogin(c *fiber.Ctx) error {
 	if err != nil {
 		log.Println("Session error", err)
 	}
+
 	session.Set("Auth", server.Auth{Valid: true})
 	log.Println("Postlogin - ", auth, " - ", loginForm)
 	authed := session.Get("Auth")
-	log.Println("Authed = ", authed.(server.Auth).Valid)
 
+	err = session.Save()
+	if err != nil {
+		log.Println("Session error", err)
+	}
+
+	log.Println("Authed = ", authed.(server.Auth).Valid)
 	return c.Render("partials/form/login-response", fiber.Map{"User": loginForm})
 }

@@ -22,7 +22,7 @@ func NewMiddleware(app *config.App) middleware {
 
 func (mw *middleware) Authenticate() fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		auth, err := helper.GetKey(mw.App, c, "Auth")
+		auth, err := server.GetKey("Auth", c, mw.App)
 		if err != nil {
 			return c.Redirect("/login")
 		}
