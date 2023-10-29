@@ -1,4 +1,12 @@
 <h1>Login</h1>
 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam at dicta saepe laborum veritatis reprehenderit quod minus incidunt itaque aliquid! Voluptates inventore commodi voluptate asperiores saepe? Praesentium dolores velit illo.</p>
 <hr>
+{{if eq .Auth.Valid false}}
 {{template "partials/form/login" .}}
+{{else}}
+<form>
+    <button>Logout</button>
+</form>
+{{end}}
+
+{{.}}

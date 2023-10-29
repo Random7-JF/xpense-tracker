@@ -37,6 +37,7 @@ func PostLogin(c *fiber.Ctx) error {
 	auth := h.App.Db.AuthUser(loginForm.Username, loginForm.Password)
 	if !auth {
 		loginForm.Error = "Bad Password"
+		return c.Render("partials/form/login-response", fiber.Map{"User": loginForm})
 	}
 
 	session, err := h.App.Store.Get(c)

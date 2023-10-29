@@ -4,5 +4,6 @@
         <li><a href="/app/expense/dashboard">Overview</a></li>
         <li><a href="/app/expense/modify">Add / Remove</a></li>
         <li><a href="/app/expense/reports">Reports</a></li>
+        <li><a href="/login">{{if .Auth.Valid}}Logout{{else}}Login{{end}}</a></li>
     </ul>
 </nav>
