@@ -3,7 +3,6 @@ package handlers
 import (
 	"log"
 
-	"github.com/Random7-JF/xpense-tracker/helper"
 	"github.com/Random7-JF/xpense-tracker/server"
 	"github.com/gofiber/fiber/v2"
 )
@@ -40,11 +39,14 @@ func PostLogin(c *fiber.Ctx) error {
 		loginForm.Error = "Bad Password"
 	}
 
-	helper.UpdateSessionKey(h.App, c, "Auth", server.Auth{
-		Valid: true,
-	})
-
+	session, err := h.App.Store.Get(c)
+	if err != nil {
+		log.Println("Session error", err)
+	}
+	session.Set("Auth", server.Auth{Valid: true})
 	log.Println("Postlogin - ", auth, " - ", loginForm)
+	authed := session.Get("Auth")
+	log.Println("Authed = ", authed.(server.Auth).Valid)
 
 	return c.Render("partials/form/login-response", fiber.Map{"User": loginForm})
 }
