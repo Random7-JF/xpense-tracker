@@ -46,3 +46,11 @@ func UpdateSessionKey(key string, value interface{}, app *config.App, c *fiber.C
 	}
 	return nil
 }
+
+func GetAuthStatus(c *fiber.Ctx, app *config.App) interface{} {
+	auth, err := GetKey("Auth", c, app)
+	if err != nil {
+		return nil
+	}
+	return auth
+}
