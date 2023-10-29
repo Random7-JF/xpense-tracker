@@ -1,0 +1,24 @@
+body {
+    background-color: #182224;
+    color:azure;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin:2rem;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content:flex-start;
+    align-items: center;
+    gap: 4rem;
+}
+
+nav a {
+    color:#4D818C;        
+    text-decoration: none;
+}
+
+nav h1 a {
+    color: #205459;
+}

@@ -1,0 +1,8 @@
+<p>Registration Submitted</p>
+{{if .User.Error}}
+<p>{{.User.Error}}</p>
+{{else}}
+<p>Account created.</p>
+<p>{{.User.Username}}</p>
+<p>{{.User.Email}}</p>
+{{end}}
