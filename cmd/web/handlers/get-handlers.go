@@ -25,3 +25,10 @@ func Register(c *fiber.Ctx) error {
 	data["Title"] = "Xpense - Register"
 	return c.Render("pages/register", data, "layouts/main")
 }
+
+func ExpenseModify(c *fiber.Ctx) error {
+	data := make(map[string]interface{})
+
+	data["Auth"] = server.GetAuthStatus(c, h.App)
+	return c.Render("pages/app/expense/modify", data, "layouts/main")
+}

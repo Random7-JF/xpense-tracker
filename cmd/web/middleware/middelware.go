@@ -5,7 +5,6 @@ import (
 	"log"
 
 	"github.com/Random7-JF/xpense-tracker/config"
-	"github.com/Random7-JF/xpense-tracker/helper"
 	"github.com/Random7-JF/xpense-tracker/server"
 	"github.com/gofiber/fiber/v2"
 )
@@ -60,7 +59,7 @@ func (mw *middleware) SetupSession() fiber.Handler {
 
 		auth := session.Get("Auth")
 		if auth == nil {
-			helper.UpdateSessionKey(mw.App, c, "Auth", server.Auth{Valid: false, Message: ""})
+			server.UpdateSessionKey("Auth", server.Auth{Valid: false, Message: ""}, mw.App, c)
 		}
 
 		return c.Next()

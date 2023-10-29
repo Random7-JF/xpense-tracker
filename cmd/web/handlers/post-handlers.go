@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"log"
+	"time"
 
 	"github.com/Random7-JF/xpense-tracker/server"
 	"github.com/gofiber/fiber/v2"
@@ -56,4 +57,16 @@ func PostLogin(c *fiber.Ctx) error {
 
 	log.Println("Authed = ", authed.(server.Auth).Valid)
 	return c.Render("partials/form/login-response", fiber.Map{"User": loginForm})
+}
+
+func PostExpenseModify(c *fiber.Ctx) error {
+	data := make(map[string]interface{})
+	var XModForm server.ExpenseModifyForm
+	XModForm.Label = c.FormValue("label")
+	//XModForm.Amount = c.FormValue("amount")
+	XModForm.Tags = c.FormValue("tags")
+	XModForm.SubmissionData = time.Now().String()
+
+	data["Auth"] = server.GetAuthStatus(c, h.App)
+	return c.Render("partials/form/app/expense/modify-response", data)
 }
