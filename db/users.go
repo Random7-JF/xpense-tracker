@@ -31,11 +31,29 @@ func (s *Sqlite) CreateUser(username string, password string, email string) erro
 		return err
 	}
 
-	_, err = s.Db.Exec(query, username, hashPassword(password), email, time.Now())
+	_, err = s.Db.Exec(query, username, HashPassword(password), email, time.Now())
 	if err != nil {
 		log.Println("exec error for createUser: ", err)
 		return err
 	}
 
 	return nil
+}
+
+func (s *Sqlite) AuthUser(username string, password string) bool {
+	query, err := ReadSQL("users/getUserPass.sql")
+	if err != nil {
+		log.Panicln("Readsql error for AuthUser", err)
+		return false
+	}
+
+	result := s.Db.QueryRow(query, username)
+	if result.Err() != nil {
+		log.Println("Query error in AuthUser", err)
+		return false
+	}
+
+	var hash string
+	result.Scan(&hash)
+	return ComparePassword(hash, password)
 }

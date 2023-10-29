@@ -17,6 +17,7 @@ type Service interface {
 
 	CheckIfUserExists(username string) bool
 	CreateUser(username string, password string, email string) error
+	AuthUser(username string, password string) bool
 }
 
 type Sqlite struct {
@@ -59,7 +60,16 @@ func (s *Sqlite) InitDb() error {
 	return nil
 }
 
-func hashPassword(password string) string {
+func HashPassword(password string) string {
 	hash, _ := bcrypt.GenerateFromPassword([]byte(password), 12)
 	return string(hash)
+}
+
+func ComparePassword(hashpassword string, password string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hashpassword), []byte(password))
+	if err != nil {
+		return false
+	} else {
+		return true
+	}
 }

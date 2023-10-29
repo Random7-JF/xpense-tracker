@@ -1,0 +1,1 @@
+select hashedpassword from users where username = ?;

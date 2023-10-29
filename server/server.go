@@ -1,6 +1,8 @@
 package server
 
-import "github.com/Random7-JF/xpense-tracker/config"
+import (
+	"github.com/Random7-JF/xpense-tracker/config"
+)
 
 type server struct {
 	App *config.App

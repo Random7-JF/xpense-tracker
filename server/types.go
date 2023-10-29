@@ -8,6 +8,12 @@ type RegisterForm struct {
 	Error           string
 }
 
+type LoginForm struct {
+	Username string
+	Password string
+	Error    string
+}
+
 type Auth struct {
 	Valid   bool
 	Message string

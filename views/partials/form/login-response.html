@@ -1,0 +1,7 @@
+<p>Login Submitted</p>
+{{if .User.Error}}
+<p>{{.User.Error}}</p>
+{{else}}
+<p>Logged In.</p>
+<p>{{.User.Username}}</p>
+{{end}}

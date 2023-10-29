@@ -1,6 +1,9 @@
 package handlers
 
 import (
+	"log"
+
+	"github.com/Random7-JF/xpense-tracker/helper"
 	"github.com/Random7-JF/xpense-tracker/server"
 	"github.com/gofiber/fiber/v2"
 )
@@ -25,4 +28,23 @@ func PostRegister(c *fiber.Ctx) error {
 	h.App.Db.CreateUser(regForm.Username, regForm.Password, regForm.Email)
 
 	return c.Render("partials/form/register-response", fiber.Map{"User": regForm})
+}
+
+func PostLogin(c *fiber.Ctx) error {
+	var loginForm server.LoginForm
+	loginForm.Username = c.FormValue("username")
+	loginForm.Password = c.FormValue("password")
+
+	auth := h.App.Db.AuthUser(loginForm.Username, loginForm.Password)
+	if !auth {
+		loginForm.Error = "Bad Password"
+	}
+
+	helper.UpdateSessionKey(h.App, c, "Auth", server.Auth{
+		Valid: true,
+	})
+
+	log.Println("Postlogin - ", auth, " - ", loginForm)
+
+	return c.Render("partials/form/login-response", fiber.Map{"User": loginForm})
 }
