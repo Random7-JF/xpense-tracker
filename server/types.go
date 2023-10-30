@@ -21,6 +21,7 @@ type ExpenseModifyForm struct {
 	UserId         int
 	SubmissionDate string
 	EpenseDate     string
+	Error          string
 }
 
 type Auth struct {

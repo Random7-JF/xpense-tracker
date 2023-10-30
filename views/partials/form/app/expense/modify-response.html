@@ -1,4 +1,9 @@
+{{if .Form.Error}}
+<p>Expense submission failed:</p>
+<p>{{.Form.Error}}</p>
+{{else}}
 <p>Expense Submitted</p>
 <p>Name: {{ .Form.Label}}</p>
 <p>Amount: {{ .Form.Amount}}</p>
 <p>Tags {{ .Form.Tags}}</p>
+{{end}}

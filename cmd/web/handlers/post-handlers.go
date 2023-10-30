@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"log"
 	"strconv"
 	"time"
@@ -68,6 +69,8 @@ func PostExpenseModify(c *fiber.Ctx) error {
 	amount, err := strconv.ParseFloat(c.FormValue("amount"), 64)
 	if err != nil {
 		log.Println("Error with string convert", err)
+		XModForm.Error = fmt.Sprintf("Error with string convert: %s", err)
+		data["Form"] = XModForm
 		return c.Render("partials/form/app/expense/modify-response", data)
 	}
 	XModForm.Label = c.FormValue("label")
