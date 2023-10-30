@@ -12,7 +12,7 @@ import (
 )
 
 type Service interface {
-	GetExpense() ([]model.Expense, error)
+	GetExpense(userId string) ([]model.Expense, error)
 	AddExpense(label string, amount float64, tags string, expenseDate string, submissionDate string, userId string)
 	RemoveExpense()
 

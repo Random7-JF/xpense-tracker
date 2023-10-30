@@ -6,13 +6,13 @@ import (
 	"github.com/Random7-JF/xpense-tracker/model"
 )
 
-func (s *Sqlite) GetExpense() ([]model.Expense, error) {
+func (s *Sqlite) GetExpense(userId string) ([]model.Expense, error) {
 	query, err := ReadSQL("expense/getExpenses.sql")
 	if err != nil {
 		log.Println("Error in reading sql get expense", err)
 		return nil, err
 	}
-	results, err := s.Db.Query(query)
+	results, err := s.Db.Query(query, userId)
 	if err != nil {
 		log.Println("Error in query get expense", err)
 		return nil, err

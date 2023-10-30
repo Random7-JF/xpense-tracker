@@ -37,8 +37,10 @@ func ExpenseModify(c *fiber.Ctx) error {
 func ExpenseDashboard(c *fiber.Ctx) error {
 	data := make(map[string]interface{})
 	data["Auth"] = server.GetAuthStatus(c, h.App)
+	session, _ := h.App.Store.Get(c)
+	auth := session.Get("Auth")
 
-	expense, err := h.App.Db.GetExpense()
+	expense, err := h.App.Db.GetExpense(h.App.Db.GetUserId(auth.(server.Auth).Username))
 	if err != nil {
 		log.Println("Error in getting expenses", err)
 		return c.Render("pages/app/expense/overview", data, "layouts/main")

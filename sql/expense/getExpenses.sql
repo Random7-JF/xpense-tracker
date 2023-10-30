@@ -1,1 +1,1 @@
-select * from expenses;
+select * from expenses where userid = ?;
