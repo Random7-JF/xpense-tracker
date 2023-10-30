@@ -48,6 +48,7 @@ func (s *Sqlite) AddExpense(e model.Expense) error {
 	return nil
 }
 
-func (s *Sqlite) RemoveExpense() {
+func (s *Sqlite) RemoveExpense(expenseId int) error {
+	return nil
 
 }

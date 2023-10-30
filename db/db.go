@@ -14,7 +14,7 @@ import (
 type Service interface {
 	GetExpense(userId string) ([]model.Expense, error)
 	AddExpense(e model.Expense) error
-	RemoveExpense()
+	RemoveExpense(expenseId int) error
 
 	CheckIfUserExists(username string) bool
 	CreateUser(username string, password string, email string) error
