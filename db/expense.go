@@ -14,10 +14,10 @@ func (s *Sqlite) AddExpense(label string, amount float64, tags string, expenseDa
 		log.Println("Error in reading sql add expense:", err)
 		return
 	}
-
-	result, err := s.Db.Exec(query, label, amount, tags, expenseDate, submissionDate, userId)
-	lines, _ := result.RowsAffected()
-	log.Println("Add Expense:", lines)
+	_, err = s.Db.Exec(query, label, amount, tags, expenseDate, submissionDate, userId)
+	if err != nil {
+		log.Println("Addexpense error:", err)
+	}
 }
 
 func (s *Sqlite) RemoveExpense() {

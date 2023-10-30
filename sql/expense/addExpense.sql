@@ -1,8 +1,8 @@
-insert into expense(
+insert into expenses(
         label,
         amount,
         tag,
-        expensedata,
+        expensedate,
         submissiondate,
         userid
     )
