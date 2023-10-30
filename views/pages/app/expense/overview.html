@@ -1,0 +1,22 @@
+<h1>Expense Overview</h1>
+<hr>
+{{if .Expense }}
+<table>
+    <thead>
+        <th>Expense</th>
+        <th>Amount</th>
+        <th>Tags</th>
+    </thead>
+    <tbody>
+        {{range .Expense}}
+        <tr>
+            <td>{{.Label}}</td>
+            <td>{{.Amount}}</td>
+            <td>{{.Tag}}</td>
+        </tr>
+        {{end}}
+    </tbody>
+</table>
+{{else}}
+<p>No current expenses.</p>
+{{end}}

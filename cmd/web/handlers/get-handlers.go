@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"log"
+
 	"github.com/Random7-JF/xpense-tracker/server"
 	"github.com/gofiber/fiber/v2"
 )
@@ -28,7 +30,20 @@ func Register(c *fiber.Ctx) error {
 
 func ExpenseModify(c *fiber.Ctx) error {
 	data := make(map[string]interface{})
-
 	data["Auth"] = server.GetAuthStatus(c, h.App)
 	return c.Render("pages/app/expense/modify", data, "layouts/main")
+}
+
+func ExpenseDashboard(c *fiber.Ctx) error {
+	data := make(map[string]interface{})
+	data["Auth"] = server.GetAuthStatus(c, h.App)
+
+	expense, err := h.App.Db.GetExpense()
+	if err != nil {
+		log.Println("Error in getting expenses", err)
+		return c.Render("pages/app/expense/overview", data, "layouts/main")
+	}
+	data["Expense"] = expense
+
+	return c.Render("pages/app/expense/overview", data, "layouts/main")
 }

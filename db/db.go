@@ -6,12 +6,13 @@ import (
 	"log"
 	"os"
 
+	"github.com/Random7-JF/xpense-tracker/model"
 	_ "github.com/mattn/go-sqlite3"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type Service interface {
-	GetExpense()
+	GetExpense() ([]model.Expense, error)
 	AddExpense(label string, amount float64, tags string, expenseDate string, submissionDate string, userId string)
 	RemoveExpense()
 

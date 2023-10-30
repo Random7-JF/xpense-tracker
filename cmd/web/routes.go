@@ -25,7 +25,7 @@ func addRoutes() {
 	app.Get("/expense/reports", func(c *fiber.Ctx) error { return c.SendString("Expense endpoint hit") })
 	app.Get("/expense/modify", handlers.ExpenseModify)
 	app.Post("/expense/modify", handlers.PostExpenseModify)
-	app.Get("/expense/dashboard", func(c *fiber.Ctx) error { return c.SendString("Expense endpoint hit") })
+	app.Get("/expense/dashboard", handlers.ExpenseDashboard)
 
 	App.Web.Static("/", "./views/static")
 }
