@@ -47,6 +47,20 @@ func ReadSQL(file string) (string, error) {
 	return string(sql), nil
 }
 
+func HashPassword(password string) string {
+	hash, _ := bcrypt.GenerateFromPassword([]byte(password), 12)
+	return string(hash)
+}
+
+func ComparePassword(hashpassword string, password string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hashpassword), []byte(password))
+	if err != nil {
+		return false
+	} else {
+		return true
+	}
+}
+
 func (s *Sqlite) InitDb() error {
 	query, err := ReadSQL("createTables.sql")
 	if err != nil {
@@ -60,18 +74,4 @@ func (s *Sqlite) InitDb() error {
 	}
 	log.Println(result.RowsAffected())
 	return nil
-}
-
-func HashPassword(password string) string {
-	hash, _ := bcrypt.GenerateFromPassword([]byte(password), 12)
-	return string(hash)
-}
-
-func ComparePassword(hashpassword string, password string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(hashpassword), []byte(password))
-	if err != nil {
-		return false
-	} else {
-		return true
-	}
 }
