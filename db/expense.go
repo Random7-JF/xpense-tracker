@@ -49,6 +49,15 @@ func (s *Sqlite) AddExpense(e model.Expense) error {
 }
 
 func (s *Sqlite) RemoveExpense(expenseId int) error {
-	return nil
+	query, err := ReadSQL("expense/removeExpense.sql")
+	if err != nil {
+		log.Println("Error in reading sql remove expense: ", err)
+		return err
+	}
+	_, err = s.Db.Exec(query, expenseId)
+	if err != nil {
+		log.Println("Remove expense error: ", err)
+	}
 
+	return nil
 }
