@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/Random7-JF/xpense-tracker/model"
 	"github.com/Random7-JF/xpense-tracker/server"
 	"github.com/gofiber/fiber/v2"
 )
@@ -65,25 +66,30 @@ func PostExpenseModify(c *fiber.Ctx) error {
 	data := make(map[string]interface{})
 	data["Auth"] = server.GetAuthStatus(c, h.App)
 
-	var XModForm server.ExpenseModifyForm
+	var ExpenseForm model.Expense
 	amount, err := strconv.ParseFloat(c.FormValue("amount"), 64)
 	if err != nil {
 		log.Println("Error with string convert", err)
-		XModForm.Error = fmt.Sprintf("Error with string convert: %s", err)
-		data["Form"] = XModForm
+		ExpenseForm.Error = fmt.Sprintf("Error with string convert: %s", err)
+		data["Form"] = ExpenseForm
 		return c.Render("partials/form/app/expense/modify-response", data)
 	}
-	XModForm.Label = c.FormValue("label")
-	XModForm.Amount = amount
-	XModForm.Tags = c.FormValue("tags")
-	XModForm.SubmissionDate = time.Now().String()
-
+	ExpenseForm.Label = c.FormValue("label")
+	ExpenseForm.Amount = amount
+	ExpenseForm.Tag = c.FormValue("tags")
+	ExpenseForm.SubmissionDate = time.Now().String()
+	ExpenseForm.ExpenseDate = time.Now().String()
 	session, _ := h.App.Store.Get(c)
 	auth := session.Get("Auth")
+	ExpenseForm.UserId = h.App.Db.GetUserId(auth.(server.Auth).Username)
 
-	h.App.Db.AddExpense(XModForm.Label, XModForm.Amount, XModForm.Tags,
-		time.Now().String(), time.Now().String(), h.App.Db.GetUserId(auth.(server.Auth).Username))
-
-	data["Form"] = XModForm
+	err = h.App.Db.AddExpense(ExpenseForm)
+	if err != nil {
+		log.Println("Error with db call", err)
+		ExpenseForm.Error = fmt.Sprintf("Error with db call: %s", err)
+		data["Form"] = ExpenseForm
+		return c.Render("partials/form/app/expense/modify-response", data)
+	}
+	data["Form"] = ExpenseForm
 	return c.Render("partials/form/app/expense/modify-response", data)
 }

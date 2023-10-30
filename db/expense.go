@@ -34,16 +34,18 @@ func (s *Sqlite) GetExpense(userId string) ([]model.Expense, error) {
 	return expenses, nil
 }
 
-func (s *Sqlite) AddExpense(label string, amount float64, tags string, expenseDate string, submissionDate string, userId string) {
+func (s *Sqlite) AddExpense(e model.Expense) error {
 	query, err := ReadSQL("expense/addExpense.sql")
 	if err != nil {
 		log.Println("Error in reading sql add expense:", err)
-		return
+		return err
 	}
-	_, err = s.Db.Exec(query, label, amount, tags, expenseDate, submissionDate, userId)
+	_, err = s.Db.Exec(query, e.Label, e.Amount, e.Tag, e.ExpenseDate, e.SubmissionDate, e.UserId)
 	if err != nil {
 		log.Println("Addexpense error:", err)
+		return err
 	}
+	return nil
 }
 
 func (s *Sqlite) RemoveExpense() {

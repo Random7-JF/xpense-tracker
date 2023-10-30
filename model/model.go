@@ -8,4 +8,5 @@ type Expense struct {
 	ExpenseDate    string
 	SubmissionDate string
 	UserId         string
+	Error          string
 }
