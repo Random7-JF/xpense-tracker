@@ -24,6 +24,8 @@ type ExpenseModifyForm struct {
 }
 
 type Auth struct {
-	Valid   bool
-	Message string
+	Valid    bool
+	Username string
+	UserId   string
+	Message  string
 }

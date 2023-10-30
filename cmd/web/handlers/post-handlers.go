@@ -46,7 +46,7 @@ func PostLogin(c *fiber.Ctx) error {
 		log.Println("Session error", err)
 	}
 
-	session.Set("Auth", server.Auth{Valid: true})
+	session.Set("Auth", server.Auth{Valid: true, Username: loginForm.Username})
 	log.Println("Postlogin - ", auth, " - ", loginForm)
 	authed := session.Get("Auth")
 
@@ -66,7 +66,12 @@ func PostExpenseModify(c *fiber.Ctx) error {
 	//XModForm.Amount = c.FormValue("amount")
 	XModForm.Tags = c.FormValue("tags")
 	XModForm.SubmissionDate = time.Now().String()
-	h.App.Db.AddExpense(XModForm.Label, XModForm.Amount, XModForm.Tags, time.Now().String(), time.Now().String(), "1")
+
+	session, _ := h.App.Store.Get(c)
+	auth := session.Get("Auth")
+
+	h.App.Db.AddExpense(XModForm.Label, XModForm.Amount, XModForm.Tags,
+		time.Now().String(), time.Now().String(), h.App.Db.GetUserId(auth.(server.Auth).Username))
 
 	data["Form"] = XModForm
 	data["Auth"] = server.GetAuthStatus(c, h.App)

@@ -6,6 +6,7 @@
         <th>Expense</th>
         <th>Amount</th>
         <th>Tags</th>
+        <th>UserId</th>
     </thead>
     <tbody>
         {{range .Expense}}
@@ -13,6 +14,7 @@
             <td>{{.Label}}</td>
             <td>{{.Amount}}</td>
             <td>{{.Tag}}</td>
+            <td>{{.UserId}}</td>
         </tr>
         {{end}}
     </tbody>

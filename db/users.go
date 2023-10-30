@@ -57,3 +57,23 @@ func (s *Sqlite) AuthUser(username string, password string) bool {
 	result.Scan(&hash)
 	return ComparePassword(hash, password)
 }
+
+func (s *Sqlite) GetUserId(username string) string {
+	var userId string
+	query, err := ReadSQL("users/getUserId.sql")
+	if err != nil {
+		log.Println("Query error in Getuserid", err)
+		return ""
+	}
+	result := s.Db.QueryRow(query, username)
+	if result.Err() != nil {
+		log.Println("Queryrow error in getuserid", err)
+		return ""
+	}
+	err = result.Scan(&userId)
+	if err != nil {
+		log.Println("scan error", err)
+		return ""
+	}
+	return userId
+}

@@ -19,6 +19,7 @@ type Service interface {
 	CheckIfUserExists(username string) bool
 	CreateUser(username string, password string, email string) error
 	AuthUser(username string, password string) bool
+	GetUserId(username string) string
 }
 
 type Sqlite struct {
