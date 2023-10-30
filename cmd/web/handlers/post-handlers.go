@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"log"
+	"strconv"
 	"time"
 
 	"github.com/Random7-JF/xpense-tracker/server"
@@ -61,9 +62,16 @@ func PostLogin(c *fiber.Ctx) error {
 
 func PostExpenseModify(c *fiber.Ctx) error {
 	data := make(map[string]interface{})
+	data["Auth"] = server.GetAuthStatus(c, h.App)
+
 	var XModForm server.ExpenseModifyForm
+	amount, err := strconv.ParseFloat(c.FormValue("amount"), 64)
+	if err != nil {
+		log.Println("Error with string convert", err)
+		return c.Render("partials/form/app/expense/modify-response", data)
+	}
 	XModForm.Label = c.FormValue("label")
-	//XModForm.Amount = c.FormValue("amount")
+	XModForm.Amount = amount
 	XModForm.Tags = c.FormValue("tags")
 	XModForm.SubmissionDate = time.Now().String()
 
@@ -74,6 +82,5 @@ func PostExpenseModify(c *fiber.Ctx) error {
 		time.Now().String(), time.Now().String(), h.App.Db.GetUserId(auth.(server.Auth).Username))
 
 	data["Form"] = XModForm
-	data["Auth"] = server.GetAuthStatus(c, h.App)
 	return c.Render("partials/form/app/expense/modify-response", data)
 }
