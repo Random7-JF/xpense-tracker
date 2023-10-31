@@ -1,11 +1,10 @@
 # Xpense Tracker App
 A fullstack Go webapp made to track expenses.
-
 ## Stack
 ### Backend
-Go
-- Fiber
+- Go Fiber
+- Go Templates
 - sqlite3
-- GoTemplates
 ### Frontend
-HTMX
+- HTML/CSS
+- HTMX
