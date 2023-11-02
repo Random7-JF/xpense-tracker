@@ -62,7 +62,7 @@ func PostLogin(c *fiber.Ctx) error {
 	return c.Render("partials/form/login-response", fiber.Map{"User": loginForm})
 }
 
-func PostExpenseModify(c *fiber.Ctx) error {
+func PostExpenseAdd(c *fiber.Ctx) error {
 	data := make(map[string]interface{})
 	data["Auth"] = server.GetAuthStatus(c, h.App)
 
@@ -89,8 +89,8 @@ func PostExpenseModify(c *fiber.Ctx) error {
 		log.Println("Error with db call", err)
 		ExpenseForm.Error = fmt.Sprintf("Error with db call: %s", err)
 		data["Form"] = ExpenseForm
-		return c.Render("partials/form/app/expense/modify-response", data)
+		return c.Render("partials/form/app/expense/add-response", data)
 	}
 	data["Form"] = ExpenseForm
-	return c.Render("partials/form/app/expense/modify-response", data)
+	return c.Render("partials/form/app/expense/add-response", data)
 }

@@ -31,7 +31,7 @@ func Register(c *fiber.Ctx) error {
 func ExpenseModify(c *fiber.Ctx) error {
 	data := make(map[string]interface{})
 	data["Auth"] = server.GetAuthStatus(c, h.App)
-	return c.Render("pages/app/expense/modify", data, "layouts/main")
+	return c.Render("pages/app/expense/add", data, "layouts/main")
 }
 
 func ExpenseDashboard(c *fiber.Ctx) error {

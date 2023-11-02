@@ -25,7 +25,7 @@ func addRoutes() {
 	app.Use(mw.SaveSession(), mw.Authenticate())
 	app.Get("/expense/reports", func(c *fiber.Ctx) error { return c.SendString("Expense endpoint hit") })
 	app.Get("/expense/modify", handlers.ExpenseModify)
-	app.Post("/expense/modify", handlers.PostExpenseModify)
+	app.Post("/expense/modify", handlers.PostExpenseAdd)
 	app.Get("/expense/dashboard", handlers.ExpenseDashboard)
 
 	App.Web.Static("/", "./views/static")
