@@ -94,3 +94,23 @@ func PostExpenseAdd(c *fiber.Ctx) error {
 	data["Form"] = ExpenseForm
 	return c.Render("partials/form/app/expense/add-response", data)
 }
+
+func PostExpenseRemove(c *fiber.Ctx) error {
+	data := make(map[string]interface{})
+
+	id := c.FormValue("remove-expense-id")
+	log.Printf("The remove expense id is %s", id)
+	idint, err := strconv.ParseInt(id, 10, 32)
+	if err != nil {
+		log.Printf("strconv error %s", err)
+	}
+	h.App.Db.RemoveExpense(int(idint))
+
+	session, _ := h.App.Store.Get(c)
+	auth := session.Get("Auth")
+	log.Printf("New userid for getexpense %s", h.App.Db.GetUserId(auth.(server.Auth).Username))
+	updatedTable, _ := h.App.Db.GetExpense(h.App.Db.GetUserId(auth.(server.Auth).Username))
+	data["Expense"] = updatedTable
+
+	return c.Render("partials/tables/app/expense/overview", data)
+}
