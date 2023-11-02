@@ -21,7 +21,7 @@ func (s *Sqlite) GetExpense(userId string) ([]model.Expense, error) {
 	var expense model.Expense
 	var expenses []model.Expense
 	for results.Next() {
-		err := results.Scan(&expense.Id, &expense.Label, &expense.Amount, &expense.Tag,
+		err := results.Scan(&expense.Id, &expense.Label, &expense.Amount, &expense.Frequency, &expense.Tag,
 			&expense.ExpenseDate, &expense.SubmissionDate, &expense.UserId)
 		if err != nil {
 			log.Println("Error in row scan for expense", err)
@@ -40,7 +40,7 @@ func (s *Sqlite) AddExpense(e model.Expense) error {
 		log.Println("Error in reading sql add expense:", err)
 		return err
 	}
-	_, err = s.Db.Exec(query, e.Label, e.Amount, e.Tag, e.ExpenseDate, e.SubmissionDate, e.UserId)
+	_, err = s.Db.Exec(query, e.Label, e.Amount, e.Frequency, e.Tag, e.ExpenseDate, e.SubmissionDate, e.UserId)
 	if err != nil {
 		log.Println("Addexpense error:", err)
 		return err

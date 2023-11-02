@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS expenses(
     id INTEGER PRIMARY KEY,
     label TEXT,
     amount REAL,
+    frequency TEXT,
     tag TEXT,
     expensedate TEXT,
     submissiondate TEXT,

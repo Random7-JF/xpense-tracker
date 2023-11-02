@@ -76,6 +76,7 @@ func PostExpenseModify(c *fiber.Ctx) error {
 	}
 	ExpenseForm.Label = c.FormValue("label")
 	ExpenseForm.Amount = amount
+	ExpenseForm.Frequency = c.FormValue("freq")
 	ExpenseForm.Tag = c.FormValue("tags")
 	ExpenseForm.SubmissionDate = time.Now().String()
 	ExpenseForm.ExpenseDate = time.Now().String()
