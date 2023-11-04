@@ -14,6 +14,7 @@ func addRoutes() {
 	App.Web.Get("/", handlers.Index)
 	App.Web.Get("/login", handlers.Login)
 	App.Web.Post("/login", handlers.PostLogin)
+	App.Web.Get("/logout", handlers.Logout)
 	App.Web.Get("/register", handlers.Register)
 	App.Web.Post("/register", handlers.PostRegister)
 

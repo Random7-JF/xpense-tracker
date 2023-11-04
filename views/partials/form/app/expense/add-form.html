@@ -1,17 +1,18 @@
 <div id="add-form">
     <form hx-post="/app/expense/add" hx-target="#add-form">
-        <label for="label">Expense Name:</label><br>
-        <input type="text" placeholder="Expense Name" name="label" id="label"><br>
-        <label for="amount">Amount:</label><br>
-        <input type="text" name="amount" id="amount"><br>
+        <label for="label">Expense Name:</label>
+        <input type="text" placeholder="Expense Name" name="label" id="label">
+        <label for="amount">Amount:</label>
+        <input type="text" name="amount" id="amount">
         <label for="frequency">Select Frequency:</label>
         <select id="frequency" name="frequency">
           <option value="Once">Once</option>
           <option value="Weekly">Weekly</option>
-          <option value="Montly">Montly</option>
-        </select><br>
-        <label for="tags">Tags:</label><br>
-        <input type="text" name="tags" id="tags"><br><br>
-        <button type="submit">Submit</button><br>
+          <option value="Monthly">Monthly</option>
+          <option value="Yearly">Yearly</option>
+        </select>
+        <label for="tags">Tags:</label>
+        <input type="text" name="tags" id="tags">
+        <button type="submit">Submit</button>
     </form>
 </div>

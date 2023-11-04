@@ -21,6 +21,14 @@ func Login(c *fiber.Ctx) error {
 	return c.Render("pages/login", data, "layouts/main")
 }
 
+func Logout(c *fiber.Ctx) error {
+	session, _ := h.App.Store.Get(c)
+	noAuth := server.Auth{Valid: false}
+	session.Set("Auth", noAuth)
+	session.Save()
+	return c.Redirect("/")
+}
+
 func Register(c *fiber.Ctx) error {
 	data := make(map[string]interface{})
 	data["Auth"] = server.GetAuthStatus(c, h.App)

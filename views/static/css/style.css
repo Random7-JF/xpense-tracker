@@ -1,5 +1,14 @@
+:root {
+    --main-background-color: #071013;
+    --accent-color-1: #eb5160;
+    --accent-color-2: #b7999c;
+    --text-color: #fcdbdb;
+    --neutral-color: #aaaaaa;
+    --alternative-background-color: #464646;
+  }
+
 body {
-    background-color: #182224;
+    background-color: var(--main-background-color);
     color:azure;
 }
 
@@ -15,10 +24,51 @@ nav ul {
 }
 
 nav a {
-    color:#4D818C;        
+    color:#B7999C;        
     text-decoration: none;
 }
 
 nav h1 a {
-    color: #205459;
+    color: var(--accent-color-1);
 }
+
+#add-form, #login-form, #reg-form {
+    max-width: 400px;
+    padding: 20px;
+    border: 1px solid var(--neutral-color);
+    background-color: var(--alternative-background-color);
+    border-radius: 10px;
+  }
+  
+  form label {
+    font-weight: bold;
+  }
+  
+  form input,
+  form select {
+    width: 100%;
+    padding: 8px;
+    margin: 1rem;
+    border: 1px solid var(--neutral-color);
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  form button {
+    background-color: var(--accent-color-1);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  form button:hover {
+    background-color: var(--accent-color-2);
+  }
+
+  form input:focus {
+    outline: none;
+    border-color: var(--accent-color-1);
+    box-shadow: 0 0 5px var(--accent-color-1);
+  }
