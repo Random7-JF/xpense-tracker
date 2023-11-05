@@ -32,11 +32,10 @@ nav h1 a {
     color: var(--accent-color-1);
 }
 
-#add-form, #login-form, #reg-form {
+#add-form, #login-form, #reg-form, #update-form {
     max-width: 400px;
     padding: 20px;
     border: 1px solid var(--neutral-color);
-    background-color: var(--alternative-background-color);
     border-radius: 10px;
   }
   
@@ -90,3 +89,26 @@ nav h1 a {
   td form button:hover {
     background-color: var(--accent-color-2);
   }
+
+  #expense-table {
+    margin-top: 20px;
+}
+
+table {
+    max-width: 1000px;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+thead {
+    background-color: var(--alternative-background-color);
+}
+
+th {
+    font-weight: bold;
+}
