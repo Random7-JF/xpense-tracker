@@ -28,6 +28,8 @@ func addRoutes() {
 	app.Get("/expense/add", handlers.ExpenseModify)
 	app.Post("/expense/add", handlers.PostExpenseAdd)
 	app.Post("/expense/remove", handlers.PostExpenseRemove)
+	app.Post("/expense/modify", handlers.PostExpenseModify)
+	app.Post("/expense/update", handlers.PostExpenseUpdate)
 	app.Get("/expense/dashboard", handlers.ExpenseDashboard)
 
 	App.Web.Static("/", "./views/static")

@@ -72,3 +72,21 @@ nav h1 a {
     border-color: var(--accent-color-1);
     box-shadow: 0 0 5px var(--accent-color-1);
   }
+
+  td form {
+    display: inline-block; /* Make the forms inline */
+  }
+  
+  td form button {
+    background-color: var(--accent-color-1);
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 5px; /* Add some spacing between buttons */
+  }
+  
+  td form button:hover {
+    background-color: var(--accent-color-2);
+  }

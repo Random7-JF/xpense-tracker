@@ -1,3 +1,4 @@
+{{if not .Expense}}
 <div id="add-form">
     <form hx-post="/app/expense/add" hx-target="#add-form">
         <label for="label">Expense Name:</label>
@@ -16,3 +17,24 @@
         <button type="submit">Submit</button>
     </form>
 </div>
+{{else}}
+<div id="update-form">
+    <form hx-post="/app/expense/update">
+        <input type="hidden" name="id" id="id" value="{{.Expense.Id}}">
+        <label for="label">Expense Name:</label>
+        <input type="text" value="{{.Expense.Label}}" name="label" id="label">
+        <label for="amount">Amount:</label>
+        <input type="text" value="{{.Expense.Amount}}" name="amount" id="amount">
+        <label for="frequency">Select Frequency:</label>
+        <select id="frequency" name="frequency">
+          <option value="Once" {{if eq .Expense.Frequency "Once"}} selected {{end}}>Once</option>
+          <option value="Weekly" {{if eq .Expense.Frequency "Weekly"}} selected {{end}}>Weekly</option>
+          <option value="Monthly" {{if eq .Expense.Frequency "Monthly"}} selected {{end}}>Monthly</option>
+          <option value="Yearly" {{if eq .Expense.Frequency "Yearly"}} selected {{end}}>Yearly</option>
+        </select>
+        <label for="tags">Tags:</label>
+        <input type="text" value="{{.Expense.Tag}}" name="tags" id="tags">
+        <button type="submit">Save</button>
+    </form>
+</div>
+{{end}}

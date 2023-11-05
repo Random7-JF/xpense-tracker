@@ -1,13 +1,12 @@
+{{if .Expense }}
 <div id="expense-table">
-    {{if .Expense }}
     <table>
         <thead>
             <th>Expense</th>
             <th>Amount</th>
             <th>Frequency</th>
             <th>Tags</th>
-            <th>UserId</th>
-            <th>Remove?</th>
+            <th>Remove / Modifiy</th>
         </thead>
         <tbody>
             {{range .Expense}}
@@ -16,11 +15,14 @@
                 <td>{{.Amount}}</td>
                 <td>{{.Frequency}}</td>
                 <td>{{.Tag}}</td>
-                <td>{{.UserId}}</td>
                 <td>
-                    <form hx-post="/app/expense/remove" hx-target="#expense-table">
+                    <form hx-post="/app/expense/remove" hx-target="#expense-table" hx-swap="outerHTML">
                         <input type="hidden" id="remove-expense-id" name="remove-expense-id" value="{{.Id}}">
-                        <button type="submit">Remove?</button>
+                        <button type="submit">Remove</button>
+                    </form>
+                    <form hx-post="/app/expense/modify" hx-target="#expense-table" hx-swap="outerHTML">
+                        <input type="hidden" id="modify-expense-id" name="modify-expense-id" value="{{.Id}}">
+                        <button type="submit">Modify</button>
                     </form>
                 </td>
             </tr>
@@ -29,5 +31,5 @@
     </table>
     {{else}}
     <p>No current expenses.</p>
-    {{end}}
 </div>
+{{end}}

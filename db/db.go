@@ -13,8 +13,10 @@ import (
 
 type Service interface {
 	GetExpense(userId string) ([]model.Expense, error)
+	GetExpenseByID(expenseID string) (model.Expense, error)
 	AddExpense(e model.Expense) error
 	RemoveExpense(expenseId int) error
+	UpdateExpenseById(expense model.Expense) error
 
 	CheckIfUserExists(username string) bool
 	CreateUser(username string, password string, email string) error

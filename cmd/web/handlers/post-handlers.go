@@ -97,7 +97,8 @@ func PostExpenseAdd(c *fiber.Ctx) error {
 
 func PostExpenseRemove(c *fiber.Ctx) error {
 	data := make(map[string]interface{})
-
+	session, _ := h.App.Store.Get(c)
+	auth := session.Get("Auth")
 	id := c.FormValue("remove-expense-id")
 	log.Printf("The remove expense id is %s", id)
 	idint, err := strconv.ParseInt(id, 10, 32)
@@ -106,11 +107,46 @@ func PostExpenseRemove(c *fiber.Ctx) error {
 	}
 	h.App.Db.RemoveExpense(int(idint))
 
-	session, _ := h.App.Store.Get(c)
-	auth := session.Get("Auth")
 	log.Printf("New userid for getexpense %s", h.App.Db.GetUserId(auth.(server.Auth).Username))
 	updatedTable, _ := h.App.Db.GetExpense(h.App.Db.GetUserId(auth.(server.Auth).Username))
 	data["Expense"] = updatedTable
 
 	return c.Render("partials/tables/app/expense/overview", data)
+}
+
+func PostExpenseModify(c *fiber.Ctx) error {
+	data := make(map[string]interface{})
+
+	id := c.FormValue("modify-expense-id")
+	expenseModify, _ := h.App.Db.GetExpenseByID(id)
+	data["Expense"] = expenseModify
+
+	return c.Render("partials/form/app/expense/add-form", data)
+}
+
+func PostExpenseUpdate(c *fiber.Ctx) error {
+	id, err := strconv.Atoi(c.FormValue("id"))
+	if err != nil {
+		log.Printf("AtoI Error in expense update: %s", err)
+	}
+	var expense model.Expense
+	expense.Id = id
+	expense.Label = c.FormValue("label")
+	amount, err := strconv.ParseFloat(c.FormValue("amount"), 64)
+	if err != nil {
+		log.Printf("Parsefloat error in post expense update: %s", err)
+		return c.Redirect("/app/expense/dashboard")
+
+	}
+	expense.Amount = amount
+	expense.Frequency = c.FormValue("frequency")
+	expense.Tag = c.FormValue("tags")
+
+	err = h.App.Db.UpdateExpenseById(expense)
+	if err != nil {
+		log.Printf("SQL call error: %s", err)
+		return c.Redirect("/app/expense/dashboard")
+	}
+
+	return c.Redirect("/app/expense/dashboard")
 }
