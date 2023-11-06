@@ -19,7 +19,7 @@
 </div>
 {{else}}
 <div id="update-form">
-    <form hx-post="/app/expense/update">
+    <form hx-post="/app/expense/update" hx-target="#update-form" hx-swap="outerHTML">
         <input type="hidden" name="id" id="id" value="{{.Expense.Id}}">
         <label for="label">Expense Name:</label>
         <input type="text" value="{{.Expense.Label}}" name="label" id="label">

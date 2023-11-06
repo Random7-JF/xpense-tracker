@@ -125,6 +125,7 @@ func PostExpenseModify(c *fiber.Ctx) error {
 }
 
 func PostExpenseUpdate(c *fiber.Ctx) error {
+	data := make(map[string]interface{})
 	id, err := strconv.Atoi(c.FormValue("id"))
 	if err != nil {
 		log.Printf("AtoI Error in expense update: %s", err)
@@ -148,5 +149,15 @@ func PostExpenseUpdate(c *fiber.Ctx) error {
 		return c.Redirect("/app/expense/dashboard")
 	}
 
-	return c.Redirect("/app/expense/dashboard")
+	data["Auth"] = server.GetAuthStatus(c, h.App)
+	session, _ := h.App.Store.Get(c)
+	auth := session.Get("Auth")
+	expenses, err := h.App.Db.GetExpense(h.App.Db.GetUserId(auth.(server.Auth).Username))
+	if err != nil {
+		log.Println("Error in getting expenses", err)
+		return c.Render("pages/app/expense/overview", data, "layouts/main")
+	}
+	data["Expense"] = expenses
+
+	return c.Render("partials/tables/app/expense/overview", data)
 }
