@@ -1,3 +1,24 @@
 <h1>Register</h1>
 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam at dicta saepe laborum veritatis reprehenderit quod minus incidunt itaque aliquid! Voluptates inventore commodi voluptate asperiores saepe? Praesentium dolores velit illo.</p>
-{{template "partials/form/register" .}}
+{{block "register-form" . }}
+{{if eq .Auth.Valid false}}
+<div id="reg-form">
+    <form hx-post="/register" hx-target="#reg-form">
+        <label for="username">Username:</label>
+        <input type="text" placeholder="username" name="username" id="username">
+        <label for="email" >Email:</label>
+        <input type="email" placeholder="email@email.com" name="email" id="email">
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password">
+        <label for="passwordconfirm">Confirm Password:</label>
+        <input type="password" name="passwordconfirm" id="passwordconfirm">
+        <button type="submit">Register</button>
+    </form>
+    <p> Already have an account? <a href="/login">Login</a></p>
+</div>
+{{else}}
+<form>
+    <button>Logout TODO</button>
+</form>
+{{end}}
+{{end}}
