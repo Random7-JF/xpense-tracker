@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  xpense-tracker:
+    image: xpense-tracker
+    restart: always
+    ports:
+      - 3000:3000
+    volumes: 
+      - db:/app
+volumes:
+  db:
+    driver: local
