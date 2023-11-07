@@ -62,6 +62,25 @@ func PostLogin(c *fiber.Ctx) error {
 	return c.Render("partials/form/login-response", fiber.Map{"User": loginForm})
 }
 
+func PostExpenseRemove(c *fiber.Ctx) error {
+	data := make(map[string]interface{})
+	session, _ := h.App.Store.Get(c)
+	auth := session.Get("Auth")
+	id := c.FormValue("remove-expense-id")
+	log.Printf("The remove expense id is %s", id)
+	idint, err := strconv.ParseInt(id, 10, 32)
+	if err != nil {
+		log.Printf("strconv error %s", err)
+	}
+	h.App.Db.RemoveExpense(int(idint))
+
+	log.Printf("New userid for getexpense %s", h.App.Db.GetUserId(auth.(server.Auth).Username))
+	updatedTable, _ := h.App.Db.GetExpense(h.App.Db.GetUserId(auth.(server.Auth).Username))
+	data["Expense"] = updatedTable
+
+	return renderBlock(c, "pages/app/expense/overview", "expense-table-overview", data)
+}
+
 func PostExpenseAdd(c *fiber.Ctx) error {
 	data := make(map[string]interface{})
 	data["Auth"] = server.GetAuthStatus(c, h.App)
@@ -95,25 +114,6 @@ func PostExpenseAdd(c *fiber.Ctx) error {
 	return c.Render("partials/form/app/expense/add-response", data)
 }
 
-func PostExpenseRemove(c *fiber.Ctx) error {
-	data := make(map[string]interface{})
-	session, _ := h.App.Store.Get(c)
-	auth := session.Get("Auth")
-	id := c.FormValue("remove-expense-id")
-	log.Printf("The remove expense id is %s", id)
-	idint, err := strconv.ParseInt(id, 10, 32)
-	if err != nil {
-		log.Printf("strconv error %s", err)
-	}
-	h.App.Db.RemoveExpense(int(idint))
-
-	log.Printf("New userid for getexpense %s", h.App.Db.GetUserId(auth.(server.Auth).Username))
-	updatedTable, _ := h.App.Db.GetExpense(h.App.Db.GetUserId(auth.(server.Auth).Username))
-	data["Expense"] = updatedTable
-
-	return c.Render("partials/tables/app/expense/overview", data)
-}
-
 func PostExpenseModify(c *fiber.Ctx) error {
 	data := make(map[string]interface{})
 
@@ -121,7 +121,7 @@ func PostExpenseModify(c *fiber.Ctx) error {
 	expenseModify, _ := h.App.Db.GetExpenseByID(id)
 	data["Expense"] = expenseModify
 
-	return c.Render("partials/form/app/expense/add-form", data)
+	return renderBlock(c, "pages/app/expense/add", "expense-add-form", data)
 }
 
 func PostExpenseUpdate(c *fiber.Ctx) error {
@@ -155,9 +155,9 @@ func PostExpenseUpdate(c *fiber.Ctx) error {
 	expenses, err := h.App.Db.GetExpense(h.App.Db.GetUserId(auth.(server.Auth).Username))
 	if err != nil {
 		log.Println("Error in getting expenses", err)
-		return c.Render("pages/app/expense/overview", data, "layouts/main")
+		return renderBlock(c, "pages/app/expense/overview", "expense-table-overview", data)
 	}
 	data["Expense"] = expenses
 
-	return c.Render("partials/tables/app/expense/overview", data)
+	return renderBlock(c, "pages/app/expense/overview", "expense-table-overview", data)
 }
