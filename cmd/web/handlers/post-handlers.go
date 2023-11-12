@@ -78,7 +78,7 @@ func PostExpenseRemove(c *fiber.Ctx) error {
 	updatedTable, _ := h.App.Db.GetExpense(h.App.Db.GetUserId(auth.(server.Auth).Username))
 	data["Expense"] = updatedTable
 
-	return renderBlock(c, "pages/app/expense/overview", "expense-table-overview", data)
+	return c.Render("expense-table-overview", data)
 }
 
 func PostExpenseAdd(c *fiber.Ctx) error {
@@ -121,7 +121,7 @@ func PostExpenseModify(c *fiber.Ctx) error {
 	expenseModify, _ := h.App.Db.GetExpenseByID(id)
 	data["Expense"] = expenseModify
 
-	return renderBlock(c, "pages/app/expense/add", "expense-add-form", data)
+	return c.Render("expense-add-form", data)
 }
 
 func PostExpenseUpdate(c *fiber.Ctx) error {
@@ -155,9 +155,9 @@ func PostExpenseUpdate(c *fiber.Ctx) error {
 	expenses, err := h.App.Db.GetExpense(h.App.Db.GetUserId(auth.(server.Auth).Username))
 	if err != nil {
 		log.Println("Error in getting expenses", err)
-		return renderBlock(c, "pages/app/expense/overview", "expense-table-overview", data)
+		return c.Render("expense-table-overview", data)
 	}
 	data["Expense"] = expenses
 
-	return renderBlock(c, "pages/app/expense/overview", "expense-table-overview", data)
+	return c.Render("expense-table-overview", data)
 }
