@@ -70,6 +70,8 @@ func ExpenseList(c *fiber.Ctx) error {
 		expenses, _ = h.App.Db.GetExpenseByFreq("Weekly")
 	case "pastMonth":
 		expenses, _ = h.App.Db.GetExpenseByFreq("Monthly")
+	case "pastYear":
+		expenses, _ = h.App.Db.GetExpenseByFreq("Year")
 	case "oneTime":
 		expenses, _ = h.App.Db.GetExpenseByFreq("Once")
 	default:
