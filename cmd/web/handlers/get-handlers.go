@@ -61,19 +61,24 @@ func ExpenseDashboard(c *fiber.Ctx) error {
 
 func ExpenseList(c *fiber.Ctx) error {
 	data := make(map[string]interface{})
-	selectedRange := c.Query("dateRange")
+	selectedRange := c.Query("freq")
+	session, _ := h.App.Store.Get(c)
+	auth := session.Get("Auth")
+
 	log.Printf("The selected range is: %s", selectedRange)
 
 	var expenses []model.Expense
 	switch selectedRange {
-	case "pastWeek":
+	case "Weekly":
 		expenses, _ = h.App.Db.GetExpenseByFreq("Weekly")
-	case "pastMonth":
+	case "Monthly":
 		expenses, _ = h.App.Db.GetExpenseByFreq("Monthly")
-	case "pastYear":
-		expenses, _ = h.App.Db.GetExpenseByFreq("Year")
+	case "Yearly":
+		expenses, _ = h.App.Db.GetExpenseByFreq("Yearly")
 	case "oneTime":
 		expenses, _ = h.App.Db.GetExpenseByFreq("Once")
+	case "----":
+		expenses, _ = h.App.Db.GetExpense(h.App.Db.GetUserId(auth.(server.Auth).Username))
 	default:
 		log.Printf("unsupported date range: %s", selectedRange)
 	}
