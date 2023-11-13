@@ -1,5 +1,12 @@
 <h1>Expense Overview</h1>
 <hr>
+<label for="dateRange">Select Date Range:</label>
+<select name="dateRange" id="dateRange" hx-get="/app/expense/list" hx-trigger="change" hx-target="#filtered-table" hx-swap="innerHTML">
+    <option value="pastWeek">Past Week</option>
+    <option value="pastMonth">Past Month</option>
+    <option value="oneTime">One Time</option>
+</select>
+<div id="filtered-table">
 {{block "expense-table-overview" . }}
 {{if .Expense }}
 <div id="expense-table">
@@ -39,3 +46,4 @@
 <p>No current expenses.</p>
 {{end}}
 {{end}}
+</div>
