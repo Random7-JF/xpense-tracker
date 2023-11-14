@@ -8,6 +8,8 @@
     <option value="Yearly">Yearly</option>
     <option value="oneTime">One Time</option>
 </select>
+<label for="search">Search Expense:</label>
+<input type="text" name="search" id="search" placeholder="Expense Name..." hx-get="/app/expense/list" hx-trigger="keyup changed delay:1s" hx-target="#filtered-table" hx-swap="innerHTML">
 <div id="filtered-table">
 {{block "expense-table-overview" . }}
 {{if .Expense }}

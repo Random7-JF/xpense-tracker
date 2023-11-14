@@ -126,3 +126,31 @@ func (s *Sqlite) GetExpenseByFreq(freq string) ([]model.Expense, error) {
 
 	return expenses, nil
 }
+
+func (s *Sqlite) GetExpenseBySearch(search string) ([]model.Expense, error) {
+	query, err := ReadSQL("expense/getExpenseBySearch.sql")
+	if err != nil {
+		log.Printf("Error reading the SQL for getExpenseBySearch")
+		return []model.Expense{}, err
+	}
+
+	result, err := s.Db.Query(query, search)
+	if err != nil {
+		log.Printf("Error in Query for getExpenseBySearch: %s", err)
+		return []model.Expense{}, err
+	}
+
+	var expenses []model.Expense
+	for result.Next() {
+		var expense model.Expense
+		err := result.Scan(&expense.Id, &expense.Label, &expense.Amount, &expense.Frequency, &expense.Tag,
+			&expense.ExpenseDate, &expense.SubmissionDate, &expense.UserId)
+		if err != nil {
+			log.Printf("Error in RowScan of getExpenseBySearch: %s", err)
+			return []model.Expense{}, err
+		}
+		expenses = append(expenses, expense)
+	}
+
+	return expenses, nil
+}

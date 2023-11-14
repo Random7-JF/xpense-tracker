@@ -62,25 +62,33 @@ func ExpenseDashboard(c *fiber.Ctx) error {
 func ExpenseList(c *fiber.Ctx) error {
 	data := make(map[string]interface{})
 	selectedRange := c.Query("freq")
+	search := c.Query("search")
 	session, _ := h.App.Store.Get(c)
 	auth := session.Get("Auth")
 
 	log.Printf("The selected range is: %s", selectedRange)
-
+	log.Printf("The search term is: %s", search)
 	var expenses []model.Expense
-	switch selectedRange {
-	case "Weekly":
-		expenses, _ = h.App.Db.GetExpenseByFreq("Weekly")
-	case "Monthly":
-		expenses, _ = h.App.Db.GetExpenseByFreq("Monthly")
-	case "Yearly":
-		expenses, _ = h.App.Db.GetExpenseByFreq("Yearly")
-	case "oneTime":
-		expenses, _ = h.App.Db.GetExpenseByFreq("Once")
-	case "----":
+
+	if selectedRange != "" {
+		switch selectedRange {
+		case "Weekly":
+			expenses, _ = h.App.Db.GetExpenseByFreq("Weekly")
+		case "Monthly":
+			expenses, _ = h.App.Db.GetExpenseByFreq("Monthly")
+		case "Yearly":
+			expenses, _ = h.App.Db.GetExpenseByFreq("Yearly")
+		case "oneTime":
+			expenses, _ = h.App.Db.GetExpenseByFreq("Once")
+		case "----":
+			expenses, _ = h.App.Db.GetExpense(h.App.Db.GetUserId(auth.(server.Auth).Username))
+		default:
+			log.Printf("unsupported date range: %s", selectedRange)
+		}
+	} else if search != "" {
+		expenses, _ = h.App.Db.GetExpenseBySearch("%" + search + "%")
+	} else {
 		expenses, _ = h.App.Db.GetExpense(h.App.Db.GetUserId(auth.(server.Auth).Username))
-	default:
-		log.Printf("unsupported date range: %s", selectedRange)
 	}
 
 	data["Expense"] = expenses
