@@ -58,6 +58,11 @@ func ExpenseDashboard(c *fiber.Ctx) error {
 
 	return c.Render("pages/app/expense/overview", data, "layouts/main")
 }
+func ExpenseFill(c *fiber.Ctx) error {
+	userid := c.Query("userid")
+	h.App.Db.ExpenseFill(userid)
+	return c.Redirect("/app/expense/dashboard")
+}
 
 func ExpenseList(c *fiber.Ctx) error {
 	data := make(map[string]interface{})

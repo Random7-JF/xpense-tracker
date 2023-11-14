@@ -27,6 +27,7 @@ func addRoutes() {
 	app.Get("/expense/reports", func(c *fiber.Ctx) error { return c.SendString("Expense endpoint hit") })
 	app.Get("/expense/add", handlers.ExpenseModify)
 	app.Get("/expense/list", handlers.ExpenseList)
+	app.Get("/expense/fill", handlers.ExpenseFill)
 	app.Post("/expense/add", handlers.PostExpenseAdd)
 	app.Post("/expense/remove", handlers.PostExpenseRemove)
 	app.Post("/expense/modify", handlers.PostExpenseModify)
