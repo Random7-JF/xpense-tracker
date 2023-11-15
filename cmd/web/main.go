@@ -10,7 +10,7 @@ import (
 var App config.App
 
 func main() {
-	App.Db = db.ConnectSqliteDb("xpense.db")
+	App.Db = db.ConnectSqliteDb("sqlite/xpense.db")
 
 	App.Web = fiber.New()
 	createWeb(&App)

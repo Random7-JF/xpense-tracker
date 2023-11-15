@@ -26,4 +26,4 @@ VALUES
   ('Magazine Subscription', 10.0, 'Monthly', 'Entertainment', '2023-11-03', '2023-11-03', ?),
   ('Yoga Class', 30.0, 'Weekly', 'Health', '2023-11-07', '2023-11-07', ?),
   ('Concert Tickets', 40.0, 'Once', 'Entertainment', '2023-11-05', '2023-11-05', ?),
-  ('Office Supplies', 25.0, 'Monthly', 'Work', '2023-11-08', '2023-11-08', ?);
+  ('Office Supplies', 25.0, 'Monthly', 'Work', '2023-11-08', '2023-11-08', 1);
