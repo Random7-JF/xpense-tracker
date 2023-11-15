@@ -158,13 +158,16 @@ func (s *Sqlite) GetExpenseBySearch(search string) ([]model.Expense, error) {
 func (s *Sqlite) ExpenseFill(userid string) error {
 	query, err := ReadSQL("test/addExpenseToUserid.sql")
 	if err != nil {
-		log.Printf("Error reading the SQL for ExpenseFill")
+		log.Printf("Error reading the SQL for ExpenseFill: %s", err)
 		return err
 	}
-
-	_, err = s.Db.Exec(query, userid)
+	values := make([]interface{}, 26)
+	for i := range values {
+		values[i] = userid
+	}
+	_, err = s.Db.Exec(query, values...)
 	if err != nil {
-		log.Printf("Error executing sql for ExpenseFill")
+		log.Printf("Error executing sql for ExpenseFill %s", err)
 		return err
 	}
 
