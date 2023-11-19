@@ -1,1 +1,1 @@
-select * from expenses where label like ?
+select * from expenses where label like ? and userid = ?

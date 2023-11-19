@@ -1,1 +1,1 @@
-select * from expenses where frequency = ?
+select * from expenses where frequency = ? and userid = ?

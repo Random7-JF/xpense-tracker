@@ -68,30 +68,35 @@ func ExpenseList(c *fiber.Ctx) error {
 	data := make(map[string]interface{})
 	selectedRange := c.Query("freq")
 	search := c.Query("search")
+	tagSearch := c.Query("tag")
 	session, _ := h.App.Store.Get(c)
 	auth := session.Get("Auth")
 
 	log.Printf("The selected range is: %s", selectedRange)
 	log.Printf("The search term is: %s", search)
+	log.Printf("The tag search term is: %s", tagSearch)
 	var expenses []model.Expense
+	userid := h.App.Db.GetUserId(auth.(server.Auth).Username)
 
 	if selectedRange != "" {
 		switch selectedRange {
 		case "Weekly":
-			expenses, _ = h.App.Db.GetExpenseByFreq("Weekly")
+			expenses, _ = h.App.Db.GetExpenseByFreq("Weekly", userid)
 		case "Monthly":
-			expenses, _ = h.App.Db.GetExpenseByFreq("Monthly")
+			expenses, _ = h.App.Db.GetExpenseByFreq("Monthly", userid)
 		case "Yearly":
-			expenses, _ = h.App.Db.GetExpenseByFreq("Yearly")
+			expenses, _ = h.App.Db.GetExpenseByFreq("Yearly", userid)
 		case "oneTime":
-			expenses, _ = h.App.Db.GetExpenseByFreq("Once")
+			expenses, _ = h.App.Db.GetExpenseByFreq("Once", userid)
 		case "----":
 			expenses, _ = h.App.Db.GetExpense(h.App.Db.GetUserId(auth.(server.Auth).Username))
 		default:
 			log.Printf("unsupported date range: %s", selectedRange)
 		}
 	} else if search != "" {
-		expenses, _ = h.App.Db.GetExpenseBySearch("%" + search + "%")
+		expenses, _ = h.App.Db.GetExpenseBySearch("%"+search+"%", userid)
+	} else if tagSearch != "" {
+		expenses, _ = h.App.Db.GetExpenseByTag("%"+tagSearch+"%", userid)
 	} else {
 		expenses, _ = h.App.Db.GetExpense(h.App.Db.GetUserId(auth.(server.Auth).Username))
 	}

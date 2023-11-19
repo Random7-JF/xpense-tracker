@@ -99,14 +99,14 @@ func (s *Sqlite) UpdateExpenseById(expense model.Expense) error {
 	return nil
 }
 
-func (s *Sqlite) GetExpenseByFreq(freq string) ([]model.Expense, error) {
+func (s *Sqlite) GetExpenseByFreq(freq string, userid string) ([]model.Expense, error) {
 	query, err := ReadSQL("expense/getExpenseByFreq.sql")
 	if err != nil {
 		log.Printf("Error reading the SQL for GetExpenseByFreq: %s", err)
 		return []model.Expense{}, err
 	}
 
-	result, err := s.Db.Query(query, freq)
+	result, err := s.Db.Query(query, freq, userid)
 	if err != nil {
 		log.Printf("Error in Query for GetExpenseByFreq: %s", err)
 		return []model.Expense{}, err
@@ -127,14 +127,14 @@ func (s *Sqlite) GetExpenseByFreq(freq string) ([]model.Expense, error) {
 	return expenses, nil
 }
 
-func (s *Sqlite) GetExpenseBySearch(search string) ([]model.Expense, error) {
+func (s *Sqlite) GetExpenseBySearch(search string, userid string) ([]model.Expense, error) {
 	query, err := ReadSQL("expense/getExpenseBySearch.sql")
 	if err != nil {
 		log.Printf("Error reading the SQL for getExpenseBySearch")
 		return []model.Expense{}, err
 	}
 
-	result, err := s.Db.Query(query, search)
+	result, err := s.Db.Query(query, search, userid)
 	if err != nil {
 		log.Printf("Error in Query for getExpenseBySearch: %s", err)
 		return []model.Expense{}, err
@@ -152,6 +152,35 @@ func (s *Sqlite) GetExpenseBySearch(search string) ([]model.Expense, error) {
 		expenses = append(expenses, expense)
 	}
 
+	return expenses, nil
+}
+
+func (s *Sqlite) GetExpenseByTag(tag string, userid string) ([]model.Expense, error) {
+	query, err := ReadSQL("expense/getExpensesByTag.sql")
+	if err != nil {
+		log.Printf("Error reading the SQL for getExpenseByTag")
+		return []model.Expense{}, err
+	}
+
+	result, err := s.Db.Query(query, tag, userid)
+	if err != nil {
+		log.Printf("Error in Query for getExpenseByTag: %s", err)
+		return []model.Expense{}, err
+	}
+
+	var expenses []model.Expense
+	for result.Next() {
+		var expense model.Expense
+		err := result.Scan(&expense.Id, &expense.Label, &expense.Amount, &expense.Frequency, &expense.Tag,
+			&expense.ExpenseDate, &expense.SubmissionDate, &expense.UserId)
+		if err != nil {
+			log.Printf("Error in RowScan of getExpenseByTag: %s - Current: %v", err, expense)
+			return []model.Expense{}, err
+		}
+		expenses = append(expenses, expense)
+	}
+
+	log.Printf("Expenses:  %v", expenses)
 	return expenses, nil
 }
 

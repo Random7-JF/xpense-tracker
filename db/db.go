@@ -14,8 +14,9 @@ import (
 type Service interface {
 	GetExpense(userId string) ([]model.Expense, error)
 	GetExpenseByID(expenseID string) (model.Expense, error)
-	GetExpenseByFreq(freq string) ([]model.Expense, error)
-	GetExpenseBySearch(search string) ([]model.Expense, error)
+	GetExpenseByFreq(freq string, userid string) ([]model.Expense, error)
+	GetExpenseBySearch(search string, userid string) ([]model.Expense, error)
+	GetExpenseByTag(tag string, userid string) ([]model.Expense, error)
 	AddExpense(e model.Expense) error
 	RemoveExpense(expenseId int) error
 	UpdateExpenseById(expense model.Expense) error
