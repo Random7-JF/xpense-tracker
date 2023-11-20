@@ -30,6 +30,7 @@ type Service interface {
 
 type Sqlite struct {
 	Db    *sql.DB
+	Sql   map[string]string
 	Error error
 }
 
@@ -68,6 +69,8 @@ func ComparePassword(hashpassword string, password string) bool {
 }
 
 func (s *Sqlite) InitDb() error {
+	s.Sql, _ = readSQL("sql/")
+	log.Printf("SQL:%s", s.Sql["getExpensesByTag.sql"])
 	query, err := ReadSQL("createTables.sql")
 	if err != nil {
 		log.Println("Error in InitDb: ", err)
