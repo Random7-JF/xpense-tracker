@@ -8,13 +8,7 @@ import (
 )
 
 func (s *Sqlite) CheckIfUserExists(username string) bool {
-	query, err := ReadSQL("users/checkForUser.sql")
-	if err != nil {
-		log.Println("Readsql error for CheckforUser: ", err)
-		return true
-	}
-
-	result, err := s.Db.Query(query, username)
+	result, err := s.Db.Query(s.Sql["sql/users/checkForUser.sql"], username)
 	if err != nil {
 		log.Println("Checkforuser query error:", err)
 		return true
@@ -27,13 +21,7 @@ func (s *Sqlite) CheckIfUserExists(username string) bool {
 }
 
 func (s *Sqlite) CreateUser(username string, password string, email string) error {
-	query, err := ReadSQL("users/createUser.sql")
-	if err != nil {
-		log.Println("Readsql error for createUser: ", err)
-		return err
-	}
-
-	_, err = s.Db.Exec(query, username, HashPassword(password), email, time.Now())
+	_, err := s.Db.Exec(s.Sql["sql/users/createeUser.sql"], username, HashPassword(password), email, time.Now())
 	if err != nil {
 		log.Println("exec error for createUser: ", err)
 		return err
@@ -43,15 +31,9 @@ func (s *Sqlite) CreateUser(username string, password string, email string) erro
 }
 
 func (s *Sqlite) AuthUser(username string, password string) bool {
-	query, err := ReadSQL("users/getUserPass.sql")
-	if err != nil {
-		log.Panicln("Readsql error for AuthUser", err)
-		return false
-	}
-
-	result := s.Db.QueryRow(query, username)
+	result := s.Db.QueryRow(s.Sql["sql/users/getUserPass.sql"], username)
 	if result.Err() != nil {
-		log.Println("Query error in AuthUser", err)
+		log.Println("Query error in AuthUser", result.Err())
 		return false
 	}
 
@@ -62,17 +44,12 @@ func (s *Sqlite) AuthUser(username string, password string) bool {
 
 func (s *Sqlite) GetUserId(username string) string {
 	var userId string
-	query, err := ReadSQL("users/getUserId.sql")
-	if err != nil {
-		log.Println("Query error in Getuserid", err)
-		return ""
-	}
-	result := s.Db.QueryRow(query, username)
+	result := s.Db.QueryRow(s.Sql["sql/users/getUserId.sql"], username)
 	if result.Err() != nil {
-		log.Println("Queryrow error in getuserid", err)
+		log.Println("Queryrow error in getuserid", result.Err())
 		return ""
 	}
-	err = result.Scan(&userId)
+	err := result.Scan(&userId)
 	if err != nil {
 		log.Println("scan error", err)
 		return ""

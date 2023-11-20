@@ -3,8 +3,10 @@ package db
 import (
 	"database/sql"
 	"fmt"
+	"io/fs"
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/Random7-JF/xpense-tracker/model"
 	_ "github.com/mattn/go-sqlite3"
@@ -71,7 +73,6 @@ func ComparePassword(hashpassword string, password string) bool {
 
 func (s *Sqlite) InitDb() error {
 	s.Sql, _ = readSQL("sql/")
-	log.Printf("SQL:%s", s.Sql["getExpensesByTag.sql"])
 	query, err := ReadSQL("createTables.sql")
 	if err != nil {
 		log.Println("Error in InitDb: ", err)
@@ -84,4 +85,28 @@ func (s *Sqlite) InitDb() error {
 	}
 	log.Println(result.RowsAffected())
 	return nil
+}
+
+func readSQL(folderPath string) (map[string]string, error) {
+	sqlfiles := make(map[string]string)
+	err := filepath.WalkDir(folderPath, func(path string, d fs.DirEntry, err error) error {
+		if err != nil {
+			log.Printf("Error accessing path %s: %s", path, err)
+		}
+		if d.IsDir() {
+			return nil
+		}
+		contents, err := os.ReadFile(path)
+		if err != nil {
+			log.Printf("Error Reading file %s: %s", path, err)
+		}
+		sqlfiles[path] = string(contents)
+		return nil
+	})
+
+	if err != nil {
+		log.Printf("Error walking %s: %s", folderPath, err)
+	}
+
+	return sqlfiles, nil
 }
