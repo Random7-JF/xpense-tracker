@@ -58,6 +58,7 @@ func ExpenseDashboard(c *fiber.Ctx) error {
 
 	return c.Render("pages/app/expense/overview", data, "layouts/main")
 }
+
 func ExpenseFill(c *fiber.Ctx) error {
 	userid := c.Query("userid")
 	h.App.Db.ExpenseFill(userid)
@@ -104,4 +105,11 @@ func ExpenseList(c *fiber.Ctx) error {
 	data["Expense"] = expenses
 
 	return c.Render("expense-table-overview", data)
+}
+
+func Admin(c *fiber.Ctx) error {
+	data := make(map[string]interface{})
+	users := h.App.Db.GetUsers()
+	data["Users"] = users
+	return c.Render("pages/app/admin/control-panel", data, "layouts/main")
 }

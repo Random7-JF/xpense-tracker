@@ -1,5 +1,7 @@
 package model
 
+import "database/sql"
+
 type Expense struct {
 	Id             int
 	Label          string
@@ -10,4 +12,13 @@ type Expense struct {
 	SubmissionDate string
 	UserId         string
 	Error          string
+}
+
+type User struct {
+	Id            int
+	Username      string
+	Hasedpassword string
+	Email         string
+	Creationdate  string
+	Lastlogin     sql.NullString
 }

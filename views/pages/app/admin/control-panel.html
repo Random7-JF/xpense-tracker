@@ -1,0 +1,24 @@
+<h2>Admin - Control Panel</h2>
+<hr>
+<table>
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Creation Date</th>
+            <th>Last Login</th>
+            <th>User ID</th>
+            <th>Fill</th>
+        </tr>
+    </thead>
+    <tbody>
+    {{range .Users}}
+    <tr>
+        <td>{{.Username}}</td>
+        <td>{{.Email}}</td>
+        <td> - </td>
+        <td> - </td>
+        <td>{{.Id}}</td>
+        <td><button hx-post="/app/expense/fill?userid={{.Id}}" hx-swap="outerHTML">Fill Test Data</button></td>
+    </tr>
+    {{end}}

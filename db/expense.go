@@ -39,7 +39,7 @@ func (s *Sqlite) ExpenseFill(userid string) error {
 	for i := range values {
 		values[i] = userid
 	}
-	_, err := s.Db.Exec(s.Sql["sql/test/addExpenseToUserid"], values...)
+	_, err := s.Db.Exec(s.Sql["sql/test/addExpenseToUserid.sql"], values...)
 	if err != nil {
 		log.Printf("Error executing sql for ExpenseFill %s", err)
 		return err

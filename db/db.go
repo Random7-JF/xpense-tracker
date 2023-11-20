@@ -26,6 +26,7 @@ type Service interface {
 	CreateUser(username string, password string, email string) error
 	AuthUser(username string, password string) bool
 	GetUserId(username string) string
+	GetUsers() []model.User
 }
 
 type Sqlite struct {

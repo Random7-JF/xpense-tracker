@@ -3,6 +3,8 @@ package db
 import (
 	"log"
 	"time"
+
+	"github.com/Random7-JF/xpense-tracker/model"
 )
 
 func (s *Sqlite) CheckIfUserExists(username string) bool {
@@ -76,4 +78,21 @@ func (s *Sqlite) GetUserId(username string) string {
 		return ""
 	}
 	return userId
+}
+
+func (s *Sqlite) GetUsers() []model.User {
+	var users []model.User
+	result, err := s.Db.Query(s.Sql["sql/users/getUsers.sql"])
+	if err != nil {
+		log.Printf("Error in query of users: %s", err)
+	}
+	for result.Next() {
+		var user model.User
+		err := result.Scan(&user.Id, &user.Username, &user.Hasedpassword, &user.Email, &user.Creationdate, &user.Lastlogin)
+		if err != nil {
+			log.Printf("Scan Error: %s", err)
+		}
+		users = append(users, user)
+	}
+	return users
 }

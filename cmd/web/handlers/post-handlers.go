@@ -161,3 +161,13 @@ func PostExpenseUpdate(c *fiber.Ctx) error {
 
 	return c.Render("expense-table-overview", data)
 }
+
+func PostExpenseFill(c *fiber.Ctx) error {
+	userid := c.Query("userid")
+	log.Printf("userid: %s", userid)
+	err := h.App.Db.ExpenseFill(userid)
+	if err != nil {
+		log.Printf("expensefill error: %s", err)
+	}
+	return c.Render("partials/form/fill-response", fiber.Map{})
+}
