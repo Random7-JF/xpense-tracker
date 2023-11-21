@@ -9,6 +9,7 @@
             <th>Last Login</th>
             <th>User ID</th>
             <th>Fill</th>
+            <th>Items</th>
         </tr>
     </thead>
     <tbody>
@@ -20,5 +21,6 @@
         <td> - </td>
         <td>{{.Id}}</td>
         <td><button hx-post="/app/expense/fill?userid={{.Id}}" hx-swap="outerHTML">Fill Test Data</button></td>
+        <td>{{.Count}}</td>
     </tr>
     {{end}}

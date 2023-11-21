@@ -80,3 +80,13 @@ func (s *Sqlite) GetExpenseByTag(tag string, userid string) ([]model.Expense, er
 	}
 	return expenses, nil
 }
+
+func (s *Sqlite) GetExpenseCountByUser(userid string) (int, error) {
+	var count int
+	err := s.Db.QueryRow(s.Sql["sql/expense/getExpenseCountByUser.sql"], userid).Scan(&count)
+	if err != nil {
+		log.Printf("Error with getExpenseCountByUser: %s", err)
+		return 0, err
+	}
+	return count, nil
+}
