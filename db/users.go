@@ -21,7 +21,7 @@ func (s *Sqlite) CheckIfUserExists(username string) bool {
 }
 
 func (s *Sqlite) CreateUser(username string, password string, email string) error {
-	_, err := s.Db.Exec(s.Sql["sql/users/createeUser.sql"], username, HashPassword(password), email, time.Now())
+	_, err := s.Db.Exec(s.Sql["sql/users/createUser.sql"], username, HashPassword(password), email, time.Now())
 	if err != nil {
 		log.Println("exec error for createUser: ", err)
 		return err

@@ -28,7 +28,10 @@ func PostRegister(c *fiber.Ctx) error {
 		return c.Render("partials/form/register-response", fiber.Map{"User": regForm})
 	}
 
-	h.App.Db.CreateUser(regForm.Username, regForm.Password, regForm.Email)
+	err := h.App.Db.CreateUser(regForm.Username, regForm.Password, regForm.Email)
+	if err != nil {
+		log.Printf("Register error: %s", err)
+	}
 
 	return c.Render("partials/form/register-response", fiber.Map{"User": regForm})
 }
