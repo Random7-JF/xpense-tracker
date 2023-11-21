@@ -171,3 +171,13 @@ func PostExpenseFill(c *fiber.Ctx) error {
 	}
 	return c.Render("partials/form/fill-response", fiber.Map{})
 }
+
+func PostExpenseDrop(c *fiber.Ctx) error {
+	userid := c.Query("userid")
+	err := h.App.Db.ExpenseDrop(userid)
+	if err != nil {
+		log.Printf("expensedrop error: %s", err)
+	}
+
+	return c.Render("partials/form/drop-response", fiber.Map{})
+}

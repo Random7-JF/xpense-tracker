@@ -115,6 +115,7 @@ func Admin(c *fiber.Ctx) error {
 		User  model.User
 		Count int
 	}
+
 	var combined []userCounts
 	for _, user := range users {
 		var u userCounts

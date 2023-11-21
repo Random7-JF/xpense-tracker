@@ -47,3 +47,12 @@ func (s *Sqlite) ExpenseFill(userid string) error {
 
 	return nil
 }
+
+func (s *Sqlite) ExpenseDrop(userid string) error {
+	_, err := s.Db.Exec(s.Sql["sql/test/dropExpensesForUserid.sql"], userid)
+	if err != nil {
+		log.Printf("Error executing sql for ExpenseDrop %s", err)
+		return err
+	}
+	return nil
+}

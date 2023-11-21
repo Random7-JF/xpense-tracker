@@ -30,6 +30,7 @@ func addRoutes() {
 	app.Get("/expense/list", handlers.ExpenseList)
 	app.Get("/expense/fill", handlers.ExpenseFill)
 	app.Post("/expense/fill", handlers.PostExpenseFill)
+	app.Post("/expense/drop", handlers.PostExpenseDrop)
 	app.Post("/expense/add", handlers.PostExpenseAdd)
 	app.Post("/expense/remove", handlers.PostExpenseRemove)
 	app.Post("/expense/modify", handlers.PostExpenseModify)

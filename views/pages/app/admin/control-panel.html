@@ -10,6 +10,7 @@
             <th>User ID</th>
             <th>Fill</th>
             <th>Items</th>
+            <th>Drop Expenses</th>
         </tr>
     </thead>
     <tbody>
@@ -22,5 +23,6 @@
         <td>{{.User.Id}}</td>
         <td><button hx-post="/app/expense/fill?userid={{.User.Id}}" hx-swap="outerHTML">Fill Test Data</button></td>
         <td>{{.Count}}</td>
+        <td><button hx-post="/app/expense/drop?userid={{.User.Id}}" hx-swap="outerHTML">Drop Expenses</button></td>
     </tr>
     {{end}}

@@ -24,6 +24,7 @@ type Service interface {
 	UpdateExpenseById(expense model.Expense) error
 	ExpenseFill(userid string) error
 	GetExpenseCountByUser(username string) (int, error)
+	ExpenseDrop(userid string) error
 
 	CheckIfUserExists(username string) bool
 	CreateUser(username string, password string, email string) error
