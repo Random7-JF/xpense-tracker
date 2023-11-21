@@ -1,17 +1,21 @@
 <h1>Login</h1>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam at dicta saepe laborum veritatis reprehenderit quod minus incidunt itaque aliquid! Voluptates inventore commodi voluptate asperiores saepe? Praesentium dolores velit illo.</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam at dicta saepe laborum veritatis reprehenderit quod
+    minus incidunt itaque aliquid! Voluptates inventore commodi voluptate asperiores saepe? Praesentium dolores velit
+    illo.</p>
 {{block "login-form" .}}
 {{if eq .Auth.Valid false}}
 <div id="login-form">
-    <form hx-post="/login" hx-target="#login-form">
-        <label for="username">Username:</label><br>
-        <input type="text" placeholder="username" name="username" id="username"><br>
-        <label for="password">Password:</label><br>
-        <input type="password" name="password" id="password"><br><br>
-        <button type="submit">Log In</button><br>
-    </form>
-    <p> No Account? <a href="/register">Register</a></p>
+<form hx-post="/login" hx-target="#login-response" hx-swap="innerHTML">
+    <label for="username">Username:</label><br>
+    <input type="text" placeholder="username" name="username" id="username"><br>
+    <label for="password">Password:</label><br>
+    <input type="password" name="password" id="password"><br><br>
+    <button type="submit">Log In</button><br>
+</form>
+<div id="login-response"></div>
+
 </div>
+<p> No Account? <a href="/register">Register</a></p>
 {{else}}
 <form>
     <button>Logout TODO</button>
