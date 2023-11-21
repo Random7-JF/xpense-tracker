@@ -111,29 +111,24 @@ func ExpenseList(c *fiber.Ctx) error {
 func Admin(c *fiber.Ctx) error {
 	data := make(map[string]interface{})
 	users := h.App.Db.GetUsers()
-	var counts []int
+	type userCounts struct {
+		User  model.User
+		Count int
+	}
+	var combined []userCounts
 	for _, user := range users {
+		var u userCounts
+		u.User.Username = user.Username
+		u.User.Email = user.Email
+		u.User.Id = user.Id
 		count, err := h.App.Db.GetExpenseCountByUser(fmt.Sprintf("%d", user.Id))
+		u.Count = count
 		if err != nil {
 			log.Printf("error in get expense count by user for user: %d, %s", user.Id, err)
 		}
-		counts = append(counts, count)
-	}
-	type userCounts struct {
-		Username string
-		Id       int
-		Email    string
-		Count    int
-	}
-	var combined []userCounts
-	for i, user := range users {
-		var u userCounts
-		u.Username = user.Username
-		u.Email = user.Email
-		u.Id = user.Id
-		u.Count = counts[i]
 		combined = append(combined, u)
 	}
+
 	data["Users"] = combined
 	return c.Render("pages/app/admin/control-panel", data, "layouts/main")
 }

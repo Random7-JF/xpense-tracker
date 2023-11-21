@@ -15,12 +15,12 @@
     <tbody>
     {{range .Users}}
     <tr>
-        <td>{{.Username}}</td>
-        <td>{{.Email}}</td>
+        <td>{{.User.Username}}</td>
+        <td>{{.User.Email}}</td>
         <td> - </td>
         <td> - </td>
-        <td>{{.Id}}</td>
-        <td><button hx-post="/app/expense/fill?userid={{.Id}}" hx-swap="outerHTML">Fill Test Data</button></td>
+        <td>{{.User.Id}}</td>
+        <td><button hx-post="/app/expense/fill?userid={{.User.Id}}" hx-swap="outerHTML">Fill Test Data</button></td>
         <td>{{.Count}}</td>
     </tr>
     {{end}}
