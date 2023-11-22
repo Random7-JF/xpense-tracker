@@ -53,11 +53,11 @@ func ExpenseDashboard(c *fiber.Ctx) error {
 	expense, err := h.App.Db.GetExpense(h.App.Db.GetUserId(auth.(server.Auth).Username))
 	if err != nil {
 		log.Println("Error in getting expenses", err)
-		return c.Render("pages/app/expense/overview", data, "layouts/main")
+		return c.Render("pages/app/expense/dashboard", data, "layouts/main")
 	}
 	data["Expense"] = expense
 
-	return c.Render("pages/app/expense/overview", data, "layouts/main")
+	return c.Render("pages/app/expense/dashboard", data, "layouts/main")
 }
 
 func ExpenseFill(c *fiber.Ctx) error {
