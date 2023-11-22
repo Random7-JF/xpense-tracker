@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"strconv"
 	"time"
 
@@ -38,31 +39,35 @@ func PostRegister(c *fiber.Ctx) error {
 
 func PostLogin(c *fiber.Ctx) error {
 	var loginForm server.LoginForm
+	var authInfo server.Auth
 	loginForm.Username = c.FormValue("username")
 	loginForm.Password = c.FormValue("password")
 
 	auth := h.App.Db.AuthUser(loginForm.Username, loginForm.Password)
+	authInfo.Username = loginForm.Username
+
 	if !auth {
-		loginForm.Error = "Bad Password"
-		return c.Render("partials/form/login-response", fiber.Map{"User": loginForm})
+		authInfo.Message = "Bad Password"
+		authInfo.Valid = auth
+		return c.Redirect("/app/expense/dashboard", http.StatusSeeOther)
+	} else {
+		authInfo.Message = "Logged In!"
+		authInfo.Valid = auth
+		session, err := h.App.Store.Get(c)
+
+		if err != nil {
+			log.Println("Session error", err)
+			return c.Redirect("/app/expense/dashboard", http.StatusSeeOther)
+		}
+
+		session.Set("Auth", authInfo)
+		err = session.Save()
+		if err != nil {
+			log.Println("Session error", err)
+			return c.Redirect("/app/expense/dashboard", http.StatusSeeOther)
+		}
 	}
-
-	session, err := h.App.Store.Get(c)
-	if err != nil {
-		log.Println("Session error", err)
-	}
-
-	session.Set("Auth", server.Auth{Valid: true, Username: loginForm.Username})
-	log.Println("Postlogin - ", auth, " - ", loginForm)
-	authed := session.Get("Auth")
-
-	err = session.Save()
-	if err != nil {
-		log.Println("Session error", err)
-	}
-
-	log.Println("Authed = ", authed.(server.Auth).Valid)
-	return c.Render("partials/form/login-response", fiber.Map{"User": loginForm})
+	return c.Redirect("/app/expense/dashboard", http.StatusSeeOther)
 }
 
 func PostExpenseRemove(c *fiber.Ctx) error {
