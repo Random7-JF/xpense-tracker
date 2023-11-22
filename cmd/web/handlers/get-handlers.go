@@ -23,6 +23,13 @@ func Login(c *fiber.Ctx) error {
 	return c.Render("pages/login", data, "layouts/main")
 }
 
+func Reports(c *fiber.Ctx) error {
+	data := make(map[string]interface{})
+	data["Auth"] = server.GetAuthStatus(c, h.App)
+	data["Title"] = "Xpense - Reports"
+	return c.Render("pages/app/expense/reports", data, "layouts/main")
+}
+
 func Logout(c *fiber.Ctx) error {
 	session, _ := h.App.Store.Get(c)
 	noAuth := server.Auth{Valid: false}
@@ -110,6 +117,8 @@ func ExpenseList(c *fiber.Ctx) error {
 
 func Admin(c *fiber.Ctx) error {
 	data := make(map[string]interface{})
+	data["Auth"] = server.GetAuthStatus(c, h.App)
+	data["Title"] = "Xpense - Admin"
 	users := h.App.Db.GetUsers()
 	type userCounts struct {
 		User  model.User

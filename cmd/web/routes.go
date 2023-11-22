@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/Random7-JF/xpense-tracker/cmd/web/handlers"
 	"github.com/Random7-JF/xpense-tracker/cmd/web/middleware"
-	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 )
@@ -25,7 +24,7 @@ func addRoutes() {
 	}))
 	app.Use(mw.SaveSession(), mw.Authenticate())
 	app.Get("/admin/control-panel", handlers.Admin)
-	app.Get("/expense/reports", func(c *fiber.Ctx) error { return c.SendString("Expense endpoint hit") })
+	app.Get("/expense/reports", handlers.Reports)
 	app.Get("/expense/add", handlers.ExpenseModify)
 	app.Get("/expense/list", handlers.ExpenseList)
 	app.Get("/expense/fill", handlers.ExpenseFill)
