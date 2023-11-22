@@ -3,7 +3,6 @@ package server
 import (
 	"encoding/gob"
 	"errors"
-	"log"
 
 	"github.com/Random7-JF/xpense-tracker/config"
 	"github.com/gofiber/fiber/v2"
@@ -31,7 +30,6 @@ func GetKey(key string, c *fiber.Ctx, app *config.App) (interface{}, error) {
 		return nil, err
 	}
 	reqkey := session.Get(key)
-	log.Println("reg key: ", reqkey)
 	return reqkey, nil
 }
 
