@@ -1,10 +1,10 @@
 <footer>
     <div class="login-info">
-        {{if .Auth.Valid}}
+        {{- if .Auth.Valid}}
         <p>{{.Auth.Username}} Logged In</p>
-        {{else}}
+        {{- else}}
         <p>No User Logged in</p>
-        {{end}}
+        {{- end}}
       </div>
       <div class="copyright">
         <p>Random7 &copy; 2023</p>

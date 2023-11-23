@@ -1,7 +1,8 @@
 <h1>Expense Dashboard</h1>
 <hr>
 <label for="freq">Select Frequnecy:</label>
-<select name="freq" id="freq" hx-get="/app/expense/list" hx-trigger="change" hx-target="#filtered-table" hx-swap="innerHTML">
+<select name="freq" id="freq" hx-get="/app/expense/list" hx-trigger="change" hx-target="#filtered-table"
+    hx-swap="innerHTML">
     <option value="----">----</option>
     <option value="Weekly">Weekly</option>
     <option value="Monthly">Monthly</option>
@@ -9,47 +10,49 @@
     <option value="oneTime">One Time</option>
 </select>
 <label for="search">Search Expense:</label>
-<input type="text" name="search" id="search" placeholder="Expense Name..." hx-get="/app/expense/list" hx-trigger="keyup changed delay:1s" hx-target="#filtered-table" hx-swap="innerHTML">
+<input type="text" name="search" id="search" placeholder="Expense Name..." hx-get="/app/expense/list"
+    hx-trigger="keyup changed delay:1s" hx-target="#filtered-table" hx-swap="innerHTML">
 <label for="tag">Search Tag:</label>
-<input type="text" name="tag" id="tag" placeholder="Tag Name..." hx-get="/app/expense/list" hx-trigger="keyup changed delay:1s" hx-target="#filtered-table" hx-swap="innerHTML">
+<input type="text" name="tag" id="tag" placeholder="Tag Name..." hx-get="/app/expense/list"
+    hx-trigger="keyup changed delay:1s" hx-target="#filtered-table" hx-swap="innerHTML">
 <div id="filtered-table">
-{{block "expense-table-overview" . }}
-{{if .Expense }}
-<div id="expense-table">
-    <table>
-        <thead>
-            <tr>
-                <th>Expense</th>
-                <th>Amount</th>
-                <th>Frequency</th>
-                <th>Tags</th>
-                <th>Remove / Modify</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{range .Expense}}
-            <tr>
-                <td>{{.Label}}</td>
-                <td>{{.Amount}}</td>
-                <td>{{.Frequency}}</td>
-                <td>{{.Tag}}</td>
-                <td>
-                    <form hx-post="/app/expense/remove" hx-target="#expense-table" hx-swap="outerHTML">
-                        <input type="hidden" name="remove-expense-id" value="{{.Id}}">
-                        <button type="submit">Remove</button>
-                    </form>
-                    <form hx-post="/app/expense/modify" hx-target="#expense-table" hx-swap="outerHTML">
-                        <input type="hidden" name="modify-expense-id" value="{{.Id}}">
-                        <button type="submit">Modify</button>
-                    </form>
-                </td>
-            </tr>
-            {{end}}
-        </tbody>
-    </table>
-</div>
-{{else}}
-<p>No current expenses.</p>
-{{end}}
-{{end}}
+    {{- block "expense-table-overview" . }}
+    {{- if .Expense }}
+    <div id="expense-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Expense</th>
+                    <th>Amount</th>
+                    <th>Frequency</th>
+                    <th>Tags</th>
+                    <th>Remove / Modify</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{- range .Expense}}
+                <tr>
+                    <td>{{.Label}}</td>
+                    <td>{{.Amount}}</td>
+                    <td>{{.Frequency}}</td>
+                    <td>{{.Tag}}</td>
+                    <td>
+                        <form hx-post="/app/expense/remove" hx-target="#expense-table" hx-swap="outerHTML">
+                            <input type="hidden" name="remove-expense-id" value="{{.Id}}">
+                            <button type="submit">Remove</button>
+                        </form>
+                        <form hx-post="/app/expense/modify" hx-target="#expense-table" hx-swap="outerHTML">
+                            <input type="hidden" name="modify-expense-id" value="{{.Id}}">
+                            <button type="submit">Modify</button>
+                        </form>
+                    </td>
+                </tr>
+                {{- end}}
+            </tbody>
+        </table>
+    </div>
+    {{- else}}
+    <p>No current expenses.</p>
+    {{- end}}
+    {{- end}}
 </div>
