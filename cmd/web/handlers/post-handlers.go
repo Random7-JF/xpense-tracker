@@ -53,6 +53,7 @@ func PostLogin(c *fiber.Ctx) error {
 	} else {
 		authInfo.Message = "Logged In!"
 		authInfo.Valid = auth
+		authInfo.UserId = h.App.Db.GetUserId(authInfo.Username)
 		session, err := h.App.Store.Get(c)
 
 		if err != nil {
@@ -67,6 +68,8 @@ func PostLogin(c *fiber.Ctx) error {
 			return c.Redirect("/app/expense/dashboard", http.StatusSeeOther)
 		}
 	}
+
+	log.Printf("Auth: %v", authInfo)
 	return c.Redirect("/app/expense/dashboard", http.StatusSeeOther)
 }
 

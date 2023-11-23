@@ -10,6 +10,44 @@
 body {
     background-color: var(--main-background-color);
     color:azure;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  padding: 20px;
+}
+
+footer {
+  background-color: var(--main-background-color);
+  color: var(--accent-color-2);
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  position: sticky;
+  bottom: 0;
+}
+
+footer p {
+  margin: 0;
+}
+
+.login-info {
+  text-align: left;
+}
+
+.copyright {
+  text-align: center;
+}
+
+.version {
+  text-align: right;
 }
 
 nav ul {

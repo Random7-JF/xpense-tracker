@@ -14,16 +14,6 @@ type LoginForm struct {
 	Error    string
 }
 
-type ExpenseModifyForm struct {
-	Label          string
-	Amount         float64
-	Tags           string
-	UserId         int
-	SubmissionDate string
-	EpenseDate     string
-	Error          string
-}
-
 type Auth struct {
 	Valid    bool
 	Username string

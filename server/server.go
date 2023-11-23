@@ -8,17 +8,17 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type server struct {
-	App *config.App
-}
+// type server struct {
+// 	App *config.App
+// }
 
-var s server
+// var s server
 
-func NewServer(NewApp *config.App) {
-	s = server{
-		App: NewApp,
-	}
-}
+// func NewServer(NewApp *config.App) {
+// 	s = server{
+// 		App: NewApp,
+// 	}
+// }
 
 func RegisterGobs() {
 	gob.Register(Auth{})
