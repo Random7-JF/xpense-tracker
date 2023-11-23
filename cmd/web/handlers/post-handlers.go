@@ -76,14 +76,12 @@ func PostExpenseRemove(c *fiber.Ctx) error {
 	session, _ := h.App.Store.Get(c)
 	auth := session.Get("Auth")
 	id := c.FormValue("remove-expense-id")
-	log.Printf("The remove expense id is %s", id)
 	idint, err := strconv.ParseInt(id, 10, 32)
 	if err != nil {
 		log.Printf("strconv error %s", err)
 	}
 	h.App.Db.RemoveExpense(int(idint))
 
-	log.Printf("New userid for getexpense %s", h.App.Db.GetUserId(auth.(server.Auth).Username))
 	updatedTable, _ := h.App.Db.GetExpense(h.App.Db.GetUserId(auth.(server.Auth).Username))
 	data["Expense"] = updatedTable
 
