@@ -68,8 +68,6 @@ func PostLogin(c *fiber.Ctx) error {
 			return c.Redirect("/app/expense/dashboard", http.StatusSeeOther)
 		}
 	}
-
-	log.Printf("Auth: %v", authInfo)
 	return c.Redirect("/app/expense/dashboard", http.StatusSeeOther)
 }
 

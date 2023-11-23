@@ -80,10 +80,7 @@ func ExpenseList(c *fiber.Ctx) error {
 	tagSearch := c.Query("tag")
 	session, _ := h.App.Store.Get(c)
 	auth := session.Get("Auth")
-
-	log.Printf("The selected range is: %s", selectedRange)
-	log.Printf("The search term is: %s", search)
-	log.Printf("The tag search term is: %s", tagSearch)
+	data["Auth"] = auth
 	var expenses []model.Expense
 	userid := h.App.Db.GetUserId(auth.(server.Auth).Username)
 
@@ -124,7 +121,6 @@ func Admin(c *fiber.Ctx) error {
 		User  model.User
 		Count int
 	}
-
 	var combined []userCounts
 	for _, user := range users {
 		var u userCounts
