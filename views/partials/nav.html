@@ -4,9 +4,12 @@
         <li><a href="/app/expense/dashboard">Dashboard</a></li>
         <li><a href="/app/expense/Add">Add Expense</a></li>
         <li><a href="/app/expense/reports">Reports</a></li>
-        {{if .Auth.Valid}}<li><a href="/logout">Logout</a></li>
+        {{if .Auth.Valid}}
         <li><a href="/app/admin/control-panel">Admin</a></li>
-        {{else}}<li><a href="/login">Login</a></li>{{end}}
-        {{if eq .Auth.Valid false}}<li><a href="/register">Register</a></li>{{end}}
+        <li><a href="/logout">Logout</a></li>        
+        {{else}}
+        <li><a href="/login">Login</a></li>
+        <li><a href="/register">Register</a></li>
+        {{end}}
     </ul>
 </nav>

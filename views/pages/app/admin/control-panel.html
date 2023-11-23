@@ -14,15 +14,17 @@
         </tr>
     </thead>
     <tbody>
-    {{range .Users}}
-    <tr>
-        <td>{{.User.Username}}</td>
-        <td>{{.User.Email}}</td>
-        <td> - </td>
-        <td> - </td>
-        <td>{{.User.Id}}</td>
-        <td><button hx-post="/app/expense/fill?userid={{.User.Id}}" hx-swap="outerHTML">Fill Test Data</button></td>
-        <td>{{.Count}}</td>
-        <td><button hx-post="/app/expense/drop?userid={{.User.Id}}" hx-swap="outerHTML">Drop Expenses</button></td>
-    </tr>
-    {{end}}
+        {{range .Users}}
+        <tr>
+            <td>{{.User.Username}}</td>
+            <td>{{.User.Email}}</td>
+            <td> - </td>
+            <td> - </td>
+            <td>{{.User.Id}}</td>
+            <td><button hx-post="/app/expense/fill?userid={{.User.Id}}" hx-swap="outerHTML">Fill Test Data</button></td>
+            <td>{{.Count}}</td>
+            <td><button hx-post="/app/expense/drop?userid={{.User.Id}}" hx-swap="outerHTML">Drop Expenses</button></td>
+        </tr>
+        {{end}}
+    </tbody>
+</table>
