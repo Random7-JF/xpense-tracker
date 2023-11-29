@@ -54,10 +54,8 @@ func ExpenseModify(c *fiber.Ctx) error {
 func ExpenseDashboard(c *fiber.Ctx) error {
 	data := make(map[string]interface{})
 	data["Auth"] = server.GetAuthStatus(c, h.App)
-	session, _ := h.App.Store.Get(c)
-	auth := session.Get("Auth")
 
-	expense, err := h.App.Db.GetExpense(h.App.Db.GetUserId(auth.(server.Auth).Username))
+	expense, err := h.App.Db.GetExpense(h.App.Db.GetUserId(data["Auth"].(server.Auth).Username))
 	if err != nil {
 		log.Println("Error in getting expenses", err)
 		return c.Render("pages/app/expense/dashboard", data, "layouts/main")
@@ -75,14 +73,13 @@ func ExpenseFill(c *fiber.Ctx) error {
 
 func ExpenseList(c *fiber.Ctx) error {
 	data := make(map[string]interface{})
+	data["Auth"] = server.GetAuthStatus(c, h.App)
+
 	selectedRange := c.Query("freq")
 	search := c.Query("search")
 	tagSearch := c.Query("tag")
-	session, _ := h.App.Store.Get(c)
-	auth := session.Get("Auth")
-	data["Auth"] = auth
 	var expenses []model.Expense
-	userid := h.App.Db.GetUserId(auth.(server.Auth).Username)
+	userid := h.App.Db.GetUserId(data["Auth"].(server.Auth).Username)
 
 	if selectedRange != "" {
 		switch selectedRange {
@@ -95,7 +92,7 @@ func ExpenseList(c *fiber.Ctx) error {
 		case "oneTime":
 			expenses, _ = h.App.Db.GetExpenseByFreq("Once", userid)
 		case "----":
-			expenses, _ = h.App.Db.GetExpense(h.App.Db.GetUserId(auth.(server.Auth).Username))
+			expenses, _ = h.App.Db.GetExpense(h.App.Db.GetUserId(data["Auth"].(server.Auth).Username))
 		default:
 			log.Printf("unsupported date range: %s", selectedRange)
 		}
@@ -104,7 +101,7 @@ func ExpenseList(c *fiber.Ctx) error {
 	} else if tagSearch != "" {
 		expenses, _ = h.App.Db.GetExpenseByTag("%"+tagSearch+"%", userid)
 	} else {
-		expenses, _ = h.App.Db.GetExpense(h.App.Db.GetUserId(auth.(server.Auth).Username))
+		expenses, _ = h.App.Db.GetExpense(h.App.Db.GetUserId(data["Auth"].(server.Auth).Username))
 	}
 
 	data["Expense"] = expenses
@@ -116,6 +113,7 @@ func Admin(c *fiber.Ctx) error {
 	data := make(map[string]interface{})
 	data["Auth"] = server.GetAuthStatus(c, h.App)
 	data["Title"] = "Xpense - Admin"
+
 	users := h.App.Db.GetUsers()
 	type userCounts struct {
 		User  model.User
@@ -134,7 +132,7 @@ func Admin(c *fiber.Ctx) error {
 		}
 		combined = append(combined, u)
 	}
-
 	data["Users"] = combined
+
 	return c.Render("pages/app/admin/control-panel", data, "layouts/main")
 }
