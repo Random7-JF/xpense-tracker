@@ -13,6 +13,8 @@ func Index(c *fiber.Ctx) error {
 	data := make(map[string]interface{})
 	data["Auth"] = server.GetAuthStatus(c, h.App)
 	data["Title"] = "Xpense"
+	data["Test"] = c.IP()
+	log.Printf("IP Found: %s", data["Test"])
 	return c.Render("pages/index", data, "layouts/main")
 }
 
